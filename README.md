@@ -13,7 +13,7 @@ This repository contains the source code and documentation for the **AI Enabler:
 
 ## 🧐 Abstract
 
-The widespread use of chatbots like Frag Magenta and askT at Deutsche Telekom has led to a massive collection of user-generated data, often containing **Personally Identifiable Information (PII)**. To comply with the **General Data Protection Regulation (GDPR)**, this sensitive data must be anonymized before being logged or used for downstream tasks like model training and analytics.
+The widespread use of chatbots globally has led to a massive collection of user-generated data, often containing **Personally Identifiable Information (PII)**. To comply with the **General Data Protection Regulation (GDPR)**, this sensitive data must be anonymized before being logged or used for downstream tasks like model training and analytics.
 
 This project presents a scalable, multilingual PII anonymization solution for seven European NATCOs: Germany, Hungary, Poland, Greece, Croatia, Montenegro, and the UK. The pipeline uses an ensemble approach, combining **Named Entity Recognition (NER)** models (from SpaCy, HuggingFace, and Flair), language-specific regular expressions, and the Presidio framework. This hybrid method achieves over **90% value-level accuracy** in detecting and masking a wide range of PII entities while preserving the semantic context of user inputs.
 
