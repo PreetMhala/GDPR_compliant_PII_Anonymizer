@@ -35,7 +35,6 @@ The system is designed for low-latency, real-time integration, offering a cost-e
 
 The anonymization pipeline follows a structured, multi-step process to ensure all PII is detected and masked accurately.
 
-!(https://i.imgur.com/g6sU0nS.png)
 
 1.  **Input**: A user query from a chatbot is received.
 2.  **Language Identification**: The query language is identified.
