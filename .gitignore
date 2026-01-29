@@ -1,0 +1,16 @@
+# System files
+.DS_Store
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+
+# Project Output
+output/
+
+# Large files or models (add specific model paths if they are local)
+# models/

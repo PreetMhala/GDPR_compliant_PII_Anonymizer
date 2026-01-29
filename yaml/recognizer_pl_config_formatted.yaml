@@ -1,0 +1,2258 @@
+# Used for English, German and Austria
+
+SUPPORTED_LANGUAGES:
+  - pl
+
+PRESIDIO:
+  ENABLE_SPACY: true
+  ENABLE_FLAIR: true
+  ENABLE_CUSTOM_PATTERNS: true
+  ENABLE_TRANSFORMERS: true
+
+BERTIC:
+  MODEL: classla/bcms-bertic-ner
+
+ENTITIES_TO_ALLOW:
+  - 'Telekom'
+  - 'Vodafone'
+  - 'Magenta'
+  - 'Prio'
+  - 'Linkin Park'
+  - 'd.velop'
+  - 'd.ve'
+
+# logs application id keys value fixed later
+
+
+# custom regex patterns
+
+shared_keywords_billing_number: &shared_keywords_billing_number
+  - 'rozliczenie'           # billing
+  - 'faktura'               # invoice
+  - 'płatność'              # payment
+  - 'transakcja'            # transaction
+  - 'faktura'               # facture
+  - 'rachunek'              # rechnung
+  - 'rachunek'              # bill
+  - 'zakup'                 # purchase
+  - 'wyciąg'                # statement
+  - 'opłata'                # charge
+  - 'ID płatności'          # payment ID
+  - 'ID rachunku'           # bill ID
+  - 'numer faktury'         # invoice number
+  - 'referencja rozliczenia' # billing reference
+  - 'referencja płatności'   # payment reference
+
+
+shared_keywords_credit_card: &shared_keywords_credit_card
+  - 'kredyt'                     # credit
+  - 'visa'                        # visa
+  - 'mastercard'                  # mastercard
+  - 'cc'                          # cc
+  - 'amex'                        # amex
+  - 'discover'                    # discover
+  - 'jcb'                         # jcb
+  - 'diners'                      # diners
+  - 'maestro'                     # maestro
+  - 'instapayment'                # instapayment
+  - 'karta kredytowa'             # Credit Card, carte de crédit, tarjeta de crédito, kreditkort, kredittkort, kredietkaart, hitelkártya
+  - 'numer karty'                 # Card Number, número de tarjeta, numéro de carte, kortnummer, kaartnummer, kártyaszám, Kartennummer, card number
+  - 'CCN'                         # CCN
+  - 'data ważności'               # Expiration Date, Ablaufdatum, fecha de vencimiento, date d'expiration, utløpsdato, vervaldatum, utgångsdatum, lejárati dátum
+  - 'ważność'                     # Expiration, Ablauf
+  - 'CVV'                         # CVV
+  - 'kod bezpieczeństwa'          # Security Code, Sicherheitscode, código de seguridad, code de sécurité, sikkerhetskode, veiligheidscode, säkerhetskod, biztonsági kód
+  - 'adres rozliczeniowy'         # Billing Address, Rechnungsadresse, dirección de facturación, adresse de facturation, faktureringsadresse, factuuradres, faktureringsadress, számlázási cím
+  - 'imię na karcie'              # Name on Card, Name auf der Karte, nombre en la tarjeta, nom sur la carte, navn på kortet, naam op de kaart, név a kártyán, namn på kortet
+  - 'karta'                       # Karte
+
+shared_keywords_email: &shared_keywords_email
+  - 'email'                         # email, e-mail
+  - 'poczta'                        # mail, ταχυδρομείο, posta
+  - 'gmail'                         # gmail, гмейл
+  - 'hotmail'                       # hotmail, хотмейл
+  - 'yahoo'                         # yahoo
+  - 'skrzynka pocztowa'             # Postfach
+  - 'adres'                         # Adresse
+  - 'correo'                        # correo
+  - 'elektroniczny'                 # electrónico
+  - 'poczta elektroniczna'          # ηλεκτρονικό ταχυδρομείο, elektronikus levél, courriel, posta elettronica, correio eletrônico, электронная почта, e-posta, elektronik posta, електронна пошта
+  - 'adres e-mail'                  # ηλεκτρονική διεύθυνση, levélcím, adresse électronique, indirizzo e-mail, endereco de email, e-mail adresi, поштова адреса
+  - 'adres pocztowy'                # почтовый адрес
+  - 'zaproszenie'                   # invitation
+  - 'wprowadzenie'                  # introducing
+  - 'my'                            # we
+  - 'ty'                            # you
+  - 'twój'                          # your
+  - 'aktualizacja'                  # update
+  - 'nowy'                          # new
+  - 'specjalny'                     # special
+  - 'wiadomości'                    # news
+  - 'wyprzedaż'                     # sale
+  - 'wydarzenia'                    # events
+  - 'oferta'                        # offer
+  - 'imię'                          # firstname
+  - 'klient'                        # customer
+  - 'rok'                           # year
+  - 'miesiąc'                       # month
+  - 'subskrybuj'                    # subscribe
+  - 'konto'                         # account
+  - 'zarejestruj się'               # sign up
+  - 'kontakt'                       # contact
+  - 'wiadomość'                     # message
+  - 'odpowiedź'                     # reply
+  - 'wsparcie'                      # support
+
+
+shared_keywords_ian: &shared_keywords_ian
+  - 'ian'                            # ian
+  - 'identyfikator'                  # identifier, unique identifier, account identifier, identifier code
+  - 'konto internetowe'              # internet account
+  - 'identyfikator ian'              # ian id
+  - 'numer dostępu do internetu'     # Internetzugangsnummer
+  - 'internet'                       # internet
+
+shared_keywords_iban: &shared_keywords_iban
+  - 'iban'                           # iban, iban number, iban-id
+  - 'konto bankowe'                  # bank account, compte bancaire, international bank account
+  - 'numer konta'                    # account number, numéro de compte, international account number
+  - 'banco'                          # banco
+  - 'konto'                          # conta, nummer konto, account
+  - 'rachunek bankowy'               # bank
+  - 'bankowość'                      # banking
+  - 'kod iban'                       # iban code, code iban
+  - 'identyfikator konta'            # account id
+
+
+shared_keywords_id: &shared_keywords_id
+  - 'id'                             # id
+  - 'aplikacja'                      # appl
+  - 'numer wniosku'                  # application number
+  - 'konto'                          # account
+  - 'identyfikator klienta'          # customer id
+  - 'identyfikacja'                  # identification
+  - 'identyfikator pacjenta'         # patient id
+
+shared_keywords_imei: &shared_keywords_imei
+  - 'imei'                            # imei, IMEI, imei number, imei code
+  - 'telefon komórkowy'               # mobile, mobile device, phone, smartphone
+  - 'urządzenie'                      # device
+  - 'sprzęt'                          # equipment
+  - 'numer seryjny'                   # serial, serial number
+  - 'identyfikator'                   # identifier, identifier code
+  - 'gsm'                             # gsm
+  - 'lte'                             # lte
+  - 'android'                         # android
+  - 'iphone'                          # iphone
+
+shared_keywords_ip_address: &shared_keywords_ip_address
+  - 'ip'                             # ip
+  - 'adres ip'                       # ip address, ip-Adresse, dirección ip, adresse ip, διεύθυνση ip, ip-cím
+  - 'ipv4'                           # ipv4
+  - 'ipv6'                           # ipv6
+  - 'publiczny ip'                   # public ip
+  - 'prywatny ip'                    # private ip
+  - 'ip serwera'                     # server ip
+  - 'ip routera'                     # router ip
+  - 'ip bramy'                       # gateway ip
+  - 'ip klienta'                     # client ip
+  - 'ip sieci'                       # network ip
+  - 'lokalny ip'                     # local ip
+  - 'ip dns'                         # dns ip
+
+shared_keywords_network_address: &shared_keywords_network_address
+  - 'ip'                             # ip
+  - 'internet'                       # internet
+  - 'adres'                          # address, host address, mac address
+  - 'host'                           # host
+  - 'sieć'                           # network
+  - 'ipv4'                           # ipv4
+  - 'ipv6'                           # ipv6
+  - 'urządzenie'                     # device
+  - 'serwer'                         # server
+  - 'podsieć'                        # subnet
+  - 'router'                         # router
+  - 'brama'                          # gateway
+  - 'lokalny'                        # local
+  - 'publiczny'                      # public
+  - 'prywatny'                       # private
+  - 'mac'                            # mac
+  - 'ethernet'                       # ethernet
+
+shared_keywords_phonenumber: &shared_keywords_phonenumber
+  - 'numer telefonu'                 # phonenumber, numéro de téléphone, número de teléfono, numero di telefono, número de telefone, telefoonnummer, telefonszám, αριθμός τηλεφώνου, telefonnummer, phone number
+  - 'kontakt'                        # kontakt, Kontakt, contact, contatto, contatar, contactez-nous, επικοινωνήστε
+  - 'telefon'                        # teléfono, telefoon, telefon, Telephone, téléphone, telefono, τηλέφωνο, telefone
+  - 'tel'                            # tel
+  - 'telekomunikacja'                # télécom, telekom, τηλεπικοινωνίες
+  - 'numer'                          # no, nbr, nr.
+  - 'osiągnąć'                       # erreichen, reach, reach out
+  - 'zadzwoń'                        # llamar, ligar, hívás, appel, chiamare, bellen, anrufen, ringa, ringcontactar, ping, chiamata
+  - 'ph'                             # ph, ph no
+  - 'serwis telekomunikacyjny'       # telecomκαλέστε
+
+
+shared_keywords_usssn: &shared_keywords_usssn
+  - 'społeczny'                          # social, socialno, sociale zekerheid, sociale veiligheid, social no
+  - 'ubezpieczenie'                      # security, κοινωνική ασφάλιση, soziale sicherheitsnummer, seguridad social, seguridad social, sociale veiligheid, sécurité sociale, ασφάλιση
+  - 'ubezpieczenie społeczne'            # social security, Sozialversicherung, numéro de sécurité sociale, número de seguridad social, número de la seguridad social, numéro de SS, numéro de sécurité, numéro de prévoyance sociale, nummero de sécurité sociale, nummero de prévoyance sociale, numéro de seguro social, numéro de sécurité sociale, número de seguridade social, numéro de sécurité sociale, numéro de prévoyance sociale
+  - 'numer ubezpieczenia społecznego'    # Sozialversicherungsnummer, social number, socialnumber, numéro de sécurité sociale, numero di previdenza sociale, nummero di previdenza, nummero di sicurezza, nummero di sicurezza sociale, nummero de segurança social, número de seguro social, αριθμός κοινωνικής ασφάλισης, ασφαλιστικός αριθμός, társadalombiztosítási szám
+  - 'ssn'                                # ssn, ssns, ssn#, ss#
+  - 'sec'                                # sec
+  - 'ssid'                               # ssid
+  - 'sozialnummer'                       # sozialnummer
+  - 'biztonsági numer'                   # biztonsági szám, biztonsági jel, társadalombiztosítási jel
+
+shared_keywords_ssn: &shared_keywords_ssn
+  - 'społeczny'                          # social, socialno, sociale zekerheid, sociale veiligheid, social no
+  - 'ubezpieczenie'                      # security, Sozialversicherung, soziale sicherheitsnummer, sécurité sociale, ασφάλιση, seguridad social, κοινωνική ασφάλιση
+  - 'ubezpieczenie społeczne'            # social security, Sozialversicherungsnummer, numéro de sécurité sociale, numéro de SS, número de seguridad social, numéro de la sécurité social, nummero de sécurité sociale, numéro de seguridade social, nummero de prévoyance sociale, numero di previdenza sociale, nummero de previdenza, nummero de segurança social, nummero di sicurezza sociale, nummero di sicurezza
+  - 'numer ubezpieczenia społecznego'    # social number, socialnumber, Sozialversicherungsnummer, αριθμός κοινωνικής ασφάλισης, ασφαλιστικός αριθμός, társadalombiztosítási szám
+  - 'ssn'                                # ssn, ssns, ssn#, ss#
+  - 'sec'                                # sec
+  - 'ssid'                               # ssid
+  - 'numer bezpieczeństwa'               # security number
+  - 'dowód osobisty'                     # Ausweis, Personalausweis, Identity Card
+  - 'identyfikacja'                      # Identification, Identifikation
+  - 'numer identyfikacyjny'              # Identifizierungsnummer
+  - 'sozialnummer'                       # sozialnummer
+  - 'biztonsági numer'                   # biztonsági szám, biztonsági jel, társadalombiztosítási jel
+  - 'id'                                 # ID
+
+shared_keywords_url: &shared_keywords_url
+  - 'url'                                # url
+  - 'lokalizator zasobów'                # uniform resource locator, universal resource locator
+  - 'adres'                              # address, internet address, adresse web, интернет-адрес, adresse internet, Webadresse, Internetadresse, dirección web, dirección internet, indirizzo web, indirizzo internet, endereço web, endereço internet, webadres, internetadres, webbadress, internetadress, διεύθυνση
+  - 'adres internetowy'                  # web address
+  - 'odnośnik'                           # reference, hyperlink
+  - 'nazwa pliku'                        # filename
+  - 'http'                               # http
+  - 'index.html'                         # index.html
+  - 'html'                               # html
+  - 'słowo kluczowe'                     # keyword
+  - 'katalog'                            # directory
+  - 'strona'                             # site, page, webpage
+  - 'witryna internetowa'                # website
+  - 'aplikacja'                          # app
+  - 'forum'                              # forum
+  - 'mikrowitryna'                       # microsite, minisite
+  - 'adres IP'                           # IP address
+  - 'addy'                               # addy
+
+shared_keywords_title_context_keyword:
+
+shared_keywords_zip_context: &shared_keywords_zip_context
+  - 'kod pocztowy'                     # zip, zipcode, zip code, zip Code, ZIP code, ZIP Code, postal code, postal Code, post code, código postal, código postale, code postal, code postale, PLZ, Postleitzahl, posta kodu, posta kodu, postnummer, postnummer, irányítószám
+  - 'adres'                            # address, Adresse, adresse, adres, cím, dirección
+  - 'lokalizacja'                      # located, local
+  - 'ulica'                            # st
+  - 'aleja'                            # ave
+  - 'przeprowadzka'                    # move, umziehen, mudanza, déménagement, költözés, flytte, taşınma
+  - 'poczta'                           # postal
+
+
+shared_keywords_passport_context: &shared_keywords_passport_context
+  - 'paszport'                          # passport, Indian passport, Reisepass, Reisepasse, Deutscher Reisepass, passeport, passeport français, svenskt pass, pasaporte, útlevél
+  - 'numer paszportu'                   # passport number, passport#, Reisepassnummer, Reisepass-Nr, numèro de passeport, passnummer, número de pasaporte, útlevélszám
+  - 'Stany Zjednoczone'                 # US, United States
+  - 'podróż'                            # travel, resehandling
+  - 'dokument'                          # document, document de voyage
+  - 'data ważności'                     # expiration date
+  - 'data wydania'                      # issue date, Ausstellungsdatum, date de délivrance, utfärdandedatum, fecha de emisión, kiállítás dátuma
+  - 'miejsce urodzenia'                 # place of birth, Geburtsdatum, date de naissance, födelsedatum, fecha de nacimiento, születési dátum
+  - 'obywatelstwo'                      # nationality, Nationalität, nationalité, medborgarskap, nacionalidad, nemzetiség
+  - 'posiadacz paszportu'               # passport holder, Reisepassinhaber, titulaire du passeport, passinnehavare, titular del pasaporte, útlevél tulajdonos
+  - 'miejsce wydania'                   # Ausstellungsort, lieu de délivrance, utfärdandeställe, lugar de emisión, kiállítás helye
+  - 'kontrola paszportowa'              # kontrola des passeports, passkontroll
+  - 'przejście graniczne'               # pass
+  - 'paszport dyplomatyczny'            # diplomatic passport
+  - 'paszport służbowy'                 # service passport
+  - 'paszport tymczasowy'               # temporary passport
+  - 'paszport awaryjny'                 # emergency passport
+  - 'No-Reisepass Nr-Reisepass'         # No-Reisepass Nr-Reisepass (kept literal as it's a specific phrase)
+
+pattern_custom:
+  patterns:
+  # Location based patterns
+    - name: STREET
+      regex: (?i)(?<!\d+\s>)(?:([\w\d.ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\-]+\s?){,2}(?:ulica|ul\.|aleja|al\.|plac|pl\.|droga|osiedle|os\.|deptak|most|rondo|ścieżka|trakt|szosa|skwer|bulwar|promenada)(\s\d+)?)(?=[\W])
+      confidence: 0.5
+      keywords:
+        - 'ulica'             # street, Straße, οδός, utca
+        - 'adres'             # address, Adresse, dirección, διεύθυνση, cím
+        - 'lokalizacja'       # location, Ort, lugar, τόπος, hely
+        - 'miejsce'           # place
+        - 'miasto'            # city
+        - 'miasteczko'        # town
+        - 'wieś'              # village
+        - 'dzielnica'         # district
+        - 'plac'              # place (as square), Platz, plaza, πλατεία, tér
+
+
+
+    - name: STATE
+      regex:
+        \b[\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+\s*[,.;/]\s*\b(dolnośląskie|kujawsko-pomorskie|lubelskie|lubuskie|łódzkie|małopolskie|mazowieckie|opolskie|podkarpackie|podlaskie|pomorskie|śląskie|świętokrzyskie|warmińsko-mazurskie|wielkopolskie|zachodniopomorskie|DS|KP|LU|LB|LD|MA|MZ|OP|PK|PD|PM|SL|SK|WM|WP|ZP)\b
+      confidence: 0.8
+      keywords:
+        - 'miasto'              # city, Stadt, ciudad, πόλη, város
+        - 'województwo'         # state, Bundesstaat, estado, πολιτεία, állam
+        - 'kod pocztowy'        # zip code, Postleitzahl, código postal, ταχυδρομικός κώδικας, irányítószám
+        - 'adres'               # address, Adresse, dirección, διεύθυνση, cím
+
+
+    - name: STREET
+      regex: '(?i)(?<!\d\s>)([\d\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ.!:,/-]+\s){1,2}(?:ulica|ul\.|aleja|al\.|droga|osiedle|os\.|plac|pl\.|rondo|skwer|ścieżka|trakt|bulwar|promenada|park|ścieżka rowerowa|autostrada|most|deptak)\.?(?=\s|,|$)'
+      confidence: 0.8
+      keywords:
+        - 'ulica'                  # street, Straße, οδός, utca
+        - 'adres'                  # address, Adresse, dirección, διεύθυνση, cím
+        - 'lokalizacja'            # location, Ort, lugar, τόπος, hely
+        - 'miejsce'                # place
+        - 'miasto'                 # city
+        - 'miasteczko'             # town
+        - 'wieś'                   # village
+        - 'dzielnica'              # district
+        - 'plac'                   # square, Platz, plaza, πλατεία, tér
+        - 'aleja'                  # avenue, ave
+        - 'droga'                  # road, rd
+        - 'autostrada'             # highway, hwy
+        - 'ścieżka'                # trail, trl
+        - 'promenada'              # drive, dr
+        - 'ulica boczna'           # court, ct
+        - 'park'                   # park
+        - 'trakt'                  # parkway, pkwy
+        - 'rondo'                  # circle, cir
+        - 'bulwar'                 # boulevard, blvd
+        - 'osiedle'                # estate/settlement (additional, Polish context)
+        - 'skwer'                  # small square
+        - 'most'                   # bridge (additional, Polish context)
+        - 'ścieżka rowerowa'       # cycle path (additional, Polish context)
+        - 'deptak'                 # pedestrian zone (additional, Polish context)
+
+    - name: STATE
+      regex: '(?:^|(?<=\W))(dolnośląskie|kujawsko-pomorskie|lubelskie|lubuskie|łódzkie|małopolskie|mazowieckie|opolskie|podkarpackie|podlaskie|pomorskie|śląskie|świętokrzyskie|warmińsko-mazurskie|wielkopolskie|zachodniopomorskie)(?:(?=\W)|$)'
+      confidence: 0.5
+      keywords:
+        - 'województwo'           # federal state, Bundesland, szövetségi állam
+        - 'region'                # region, región, περιοχή, régió
+
+
+    - name: GPS_COORDINATES
+      regex: '\s*([-]?((90(\.0{4,6})?)|([1-8]?\d(\.\d{4,6})?)))°?\s*([NS]?)\s*,\s*([-]?((180(\.0{4,6})?)|([1]{0,1}[0-7]?[0-9](\.\d{4,6})?)))°?\s*([EW]?)\s*'
+      confidence: 0.9
+      keywords:
+        - 'współrzędne'            # coordinates, Koordinaten, coordonnées, coordenadas
+        - 'lokalizacja'            # location, emplacement, ubicación, Standort
+        - 'gps'                    # gps
+        - 'szerokość geograficzna' # latitude, Breitengrad, latitud
+        - 'długość geograficzna'   # longitude, Längengrad, longitud
+        - 'geolokalizacja'         # geolocation
+        - 'aktualna lokalizacja'   # current location, Standort
+
+
+    - name: BIG_NUMBERS
+      regex: '[0-9]{11,}'
+      confidence: 0.5
+      keywords: []
+
+    - name: BIG_NUMBERS
+      regex: '(?i)((?:(?:jeden|dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć|zero)(?:\s|,)*){6,})'
+      confidence: 0.5
+      keywords: [ ]
+
+
+    # Date time related patterns
+
+    - name: DATE
+      regex: '(?<=\s|\.)(?i)\b([1-9]|0[1-9]|[1-2]\d|3[0-1])[\. -]([1-9]|0[1-9]|1[0-2])[\. -](19|20)?\d\d\b(?=\s|\.)'
+      confidence: 0.5
+      keywords:
+        - 'data'                         # date, Datum, fecha, ημερομηνία, dátum
+        - 'urodziny'                     # birthday, Geburtstag, cumpleaños, γενέθλια, születésnap, rođendan
+        - 'urodzony'                     # born, geboren, nacido, γεννήθηκε, született, rođen
+        - 'rocznica'                     # anniversary, Jahrestag, aniversario, επετειός, évforduló
+        - 'wiek'                         # dob (date of birth), godina, dobi
+        - 'lat'                          # godine, godinu
+        - 'obchodził'                    # proslavio, napunio
+        - 'obchodziła'                   # proslavila, napunila
+        - 'urodzona'                     # rođena
+        - 'maj'                          # svibnja
+        - 'styczeń'                      # siječnju
+        - 'marzec'                       # ožujku
+        - 'w zeszłym tygodniu'           # prošlog tjedna
+        - 'zeszłego lata'                # prošlog ljeta
+        - 'za kilka miesięcy'            # za nekoliko mjeseci
+        - 'po trzydziestce'              # kasnim 30-ima
+        - 'po czterdziestce'             # srednim čterdesetima
+        - 'w średnim wieku'              # srednjoj dobi
+
+
+    - name: DATE
+      regex: '(?<=\s|\.)(?i)\b(?:[1]\d|2[0-4])\D?[0-5]\d[\s_]*[ap]m?\b(?=\s|\.)'
+      confidence: 0.3
+      keywords:
+        - 'czas'               # time
+        - 'godzina'            # hour
+        - 'minuta'             # minute
+        - 'AM'                 # AM
+        - 'PM'                 # PM
+        - 'godzina'            # Uhrzeit
+        - 'godzina'            # Stunde
+        - 'minuta'             # Minute
+        - 'rano'               # vorm.
+        - 'po południu'        # nachm.
+        - 'hora'               # hora (same word used in Spanish, may be dropped if not relevant)
+        - 'minuto'             # minuto (same case as above)
+        - 'AM'                 # AM (duplicate retained for emphasis)
+        - 'PM'                 # PM (duplicate retained for emphasis)
+        - 'godzina'            # ώρα
+        - 'minuta'             # λεπτό
+        - 'AM'                 # ΠΜ
+        - 'PM'                 # ΜΜ
+        - 'czas'               # idő
+        - 'godzina'            # óra
+        - 'minuta'             # perc
+        - 'rano'               # DE
+        - 'po południu'        # DU
+        - 'rok'                # godina
+        - 'lata'               # godine
+        - 'rok'                # godinu
+        - 'wiek'               # dob
+        - 'wieku'              # dobi
+        - 'świętował'          # proslavio
+        - 'świętowała'         # proslavila
+        - 'urodziny'           # rođendan
+        - 'skończył'           # napunio
+        - 'skończyła'          # napunila
+        - 'urodzony'           # rođen
+        - 'urodzona'           # rođena
+        - 'maja'               # svibnja
+        - 'stycznia'           # siječnju
+        - 'marca'              # ožujku
+        - 'w zeszłym tygodniu' # prošlog tjedna
+        - 'zeszłego lata'      # prošlog ljeta
+        - 'za kilka miesięcy'  # za nekoliko mjeseci
+        - 'późne lata 30.'     # kasnim 30-ima
+        - 'środkowe lata 40.'  # srednjim četrdesetima
+        - 'średni wiek'        # srednjoj dobi
+
+
+    - name: DATE
+      regex: '(?<=\s|\.)\b(?i)(?:(?<!\:)(?<!\:\d)[0-3]?\d(?:st|nd|rd|th)?\s+(?:z\s+)?(?:stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)|(?:stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)\s+(?<!\:)(?<!\:\d)[0-3]?\d(?:st|nd|rd|th)?)(?:\,)?\s*(?:\d{4})?|[0-3]?\d[-\./][0-3]?\d[-\./,\s]+\d{2,4}\b(?=\s|\.)'
+      confidence: 0.4
+      keywords:
+        - 'data'                # date / Datum / fecha / ημερομηνία / dátum
+        - 'miesiąc'             # month / Monat / mes / μήνας / hónap
+        - 'rok'                 # year / Jahr / año / χρόνος / év / godina
+        - 'dzień'               # day / Tag / día / ημέρα / nap
+        - 'termin'              # Datum (alt form)
+        - 'urodziny'            # rođendan
+        - 'urodzony'            # rođen
+        - 'urodzona'            # rođena
+        - 'ukończył'            # napunio
+        - 'ukończyła'           # napunila
+        - 'obchodził'           # proslavio
+        - 'obchodziła'          # proslavila
+        - 'maja'                # svibnja
+        - 'stycznia'            # siječnju
+        - 'marca'               # ožujku
+        - 'w zeszłym tygodniu'  # prošlog tjedna
+        - 'zeszłego lata'       # prošlog ljeta
+        - 'za kilka miesięcy'   # za nekoliko mjeseci
+        - 'późne lata 30.'      # kasnim 30-ima
+        - 'środkowe lata 40.'   # srednjim czterdziestymi
+        - 'w średnim wieku'     # srednjoj dobi
+
+
+    - name: DATE
+      regex: '(?<=\s|\.)(?i)\b\d{1,2}:\d{2} ?(?:[ap]\.?m\.?)?|\d[ap]\.?m\.?\b(?=\s|\.)'
+      confidence: 0.4
+      keywords:
+        - 'czas'                # time / Uhrzeit / idő
+        - 'godzina'             # hour / Stunde / óra
+        - 'minuta'              # minute / Minute / perc / λεπτό
+        - 'AM'                  # AM / ΠΜ
+        - 'PM'                  # PM / ΜΜ
+        - 'rano'                # vorm. / DE
+        - 'po południu'         # nachm. / DU
+        - 'hora'                # hora
+        - 'minuto'              # minuto
+        - 'rok'                 # godina / godinu / Jahr / év
+        - 'lata'                # godine
+        - 'wiek'                # dob
+        - 'wieku'               # dobi
+        - 'obchodził'           # proslavio
+        - 'obchodziła'          # proslavila
+        - 'urodziny'            # rođendan
+        - 'ukończył'            # napunio
+        - 'ukończyła'           # napunila
+        - 'urodzony'            # rođen
+        - 'urodzona'            # rođena
+        - 'maja'                # svibnja
+        - 'stycznia'            # siječnju
+        - 'marca'               # ożujku
+        - 'w zeszłym tygodniu'  # prošlog tjedna
+        - 'zeszłego lata'       # prošlog ljeta
+        - 'za kilka miesięcy'   # za nekoliko mjeseci
+        - 'późne lata 30.'      # kasnim 30-ima
+        - 'środkowe lata 40.'   # srednjim czterdesetima
+        - 'w średnim wieku'     # srednjoj dobi
+
+
+    - name: DATE
+      regex: (?<=\s|\.)(?i)\b[0-5]?\d\s*[hms]{,2}(:[0-5]?\d[hms]{,2}){1,3}\b(?=\s|\.)
+      confidence: 0.5
+      keywords:
+        - 'czas trwania'         # duration / Dauer / duración / διάρκεια / időtartam
+        - 'godziny'              # hours / Stunden / horas / ώρες / órák
+        - 'minuty'               # minutes / Minuten / minutos / λεπτά / percek
+        - 'sekundy'              # seconds / Sekunden / segundos / δευτερόλεπτα / másodpercek
+        - 'rok'                  # godina / godinu / év
+        - 'lata'                 # godine
+        - 'wiek'                 # dob
+        - 'wieku'                # dobi
+        - 'obchodził'            # proslavio
+        - 'obchodziła'           # proslavila
+        - 'urodziny'             # rođendan
+        - 'ukończył'             # napunio
+        - 'ukończyła'            # napunila
+        - 'urodzony'             # rođen
+        - 'urodzona'             # rođena
+        - 'maja'                 # svibnja
+        - 'stycznia'             # siječnju
+        - 'marca'                # ożujku
+        - 'w zeszłym tygodniu'   # prošlog tjedna
+        - 'zeszłego lata'        # prošlog ljeta
+        - 'za kilka miesięcy'    # za nekoliko mjeseci
+        - 'późne lata 30.'       # kasnim 30-ima
+        - 'środkowe lata 40.'    # srednjim czterdesetima
+        - 'w średnim wieku'      # srednjoj dobi
+
+
+    - name: DATE
+      regex: '(?<=\s|\.)(?i)\b\d{1,3}(?:-\d{2})?\b(?=\s|\.|\,)'
+      confidence: 0.3
+      keywords:
+        - 'dni'                  # days
+        - 'miesiące'             # months / mes / hónap / μήνας
+        - 'miesiąc'              # month / Monat
+        - 'wiek'                 # old / Alter / edad / ηλικία / kor
+        - 'skończyć'             # turn / Umdrehung / giro / στροφή / fordulat
+        - 'wiek'                 # age / Alter / edad / ηλικία / kor
+        - 'lata'                 # years / Jahre / años / χρόνια / évek / godine
+        - 'y/o'                  # y/o (no translation)
+        - 'urodziny'             # birthday / rođendan
+        - 'narodziny'            # birth
+        - 'stary'                # alt / viejo / παλιός / öreg
+        - 'rok'                  # godina / godinu
+        - 'wiek'                 # dob / dobi
+        - 'obchodził'            # proslavio
+        - 'obchodziła'           # proslavila
+        - 'urodziny'             # rođendan
+        - 'ukończył'             # napunio
+        - 'ukończyła'            # napunila
+        - 'urodzony'             # rođen
+        - 'urodzona'             # rođena
+        - 'maja'                 # svibnja
+        - 'stycznia'             # siječniu
+        - 'marca'                # ożujku
+        - 'w zeszłym tygodniu'   # prošlog tjedna
+        - 'zeszłego lata'        # prošlog ljeta
+        - 'za kilka miesięcy'    # za nekoliko mjeseci
+        - 'późne lata 30.'       # kasnim 30-ima
+        - 'środkowe lata 40.'    # srednjim czterdesetima
+        - 'w średnim wieku'      # srednjoj dobi
+
+
+    - name: DATE
+      regex: '(?<=\s|\.)\b(\d{4}|\d{1,2})[\/\-]\d{1,2}[\/\-](\d{4}|\d{1,2})\b(?=\s|\.)'
+      confidence: 0.3
+      keywords:
+        - 'narodziny'              # birth / γεννηση / nacimiento / születés
+        - 'data urodzenia'         # birthdate / fecha de nacimiento / születési dátum / ημερομηνία γεννήσεως
+        - 'urodziny'               # birthday / Geburtstag / cumpleaños / γενέθλια / születésnap / rođendan
+        - 'dob'                    # dob
+        - 'urodzony'               # born / rođen
+        - 'urodzona'               # rođena
+        - 'rok'                    # godina / godinu
+        - 'lata'                   # godine
+        - 'wiek'                   # dob / dobi
+        - 'obchodził'              # proslavio
+        - 'obchodziła'             # proslavila
+        - 'ukończył'               # napunio
+        - 'ukończyła'              # napunila
+        - 'maja'                   # svibnja
+        - 'stycznia'               # siječnju
+        - 'marca'                  # ożujku
+        - 'w zeszłym tygodniu'     # prošlog tjedna
+        - 'zeszłego lata'          # prošlog ljeta
+        - 'za kilka miesięcy'      # za nekoliko mjeseci
+        - 'późne lata 30.'         # kasnim 30-ima
+        - 'środkowe lata 40.'      # srednjim czterdesetima
+        - 'w średnim wieku'        # srednjoj dobi
+
+
+    - name: DATE
+      regex: '\b(\d{1,3}(?:\s*(?:years?|y/o|age))\b)'
+      confidence: 0.6
+      keywords:
+        - 'miesiąc'                # month / Monat / mes / μήνας / hónap
+        - 'wiek'                   # old / Alter / edad / ηλικία / kor / dob / dobi
+        - 'skończyć'               # turn / Umdrehung / giro / στροφή / fordulat
+        - 'wiek'                   # age / Alter / edad / ηλικία / kor
+        - 'y/o'                    # y/o
+        - 'urodziny'               # birthday / rođendan
+        - 'narodziny'              # birth
+        - 'lata'                   # years / Jahre / años / χρόνια / évek / godine
+        - 'stary'                  # alt / viejo / παλιός / öreg
+        - 'rok'                    # godina / godinu
+        - 'obchodził'              # proslavio
+        - 'obchodziła'             # proslavila
+        - 'ukończył'               # napunio
+        - 'ukończyła'              # napunila
+        - 'urodzony'               # rođen
+        - 'urodzona'               # rođena
+        - 'maja'                   # svibnja
+        - 'stycznia'               # siječnju
+        - 'marca'                  # ożujku
+        - 'w zeszłym tygodniu'     # prošlog tjedna
+        - 'zeszłego lata'          # prošlog ljeta
+        - 'za kilka miesięcy'      # za nekoliko mjeseci
+        - 'późne lata 30.'         # kasnim 30-ima
+        - 'środkowe lata 40.'      # srednjim czterdesetima
+        - 'w średnim wieku'        # srednjoj dobi
+
+
+    - name: DATE
+      regex: '\b((?:zero|jeden|dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt)(?:[-\s]?(jeden|dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć))?)\s*(lat|wiek|y\/o)\b'
+      confidence: 0.6
+      keywords:
+        - 'miesiąc'                # month / Monat / mes / μήνας / hónap
+        - 'wiek'                   # old / Alter / edad / ηλικία / kor / dob / dobi
+        - 'skończyć'               # turn / Umdrehung / giro / στροφή / fordulat
+        - 'y/o'                    # y/o
+        - 'urodziny'               # birthday / rođendan
+        - 'narodziny'              # birth
+        - 'lata'                   # years / Jahre / años / χρόνια / évek / godine
+        - 'stary'                  # alt / viejo / παλιός / öreg
+        - 'rok'                    # godina / godinu
+        - 'obchodził'              # proslavio
+        - 'obchodziła'             # proslavila
+        - 'ukończył'               # napunio
+        - 'ukończyła'              # napunila
+        - 'urodzony'               # rođen
+        - 'urodzona'               # rođena
+        - 'maja'                   # svibnja
+        - 'stycznia'               # siječniu
+        - 'marca'                  # ożujku
+        - 'w zeszłym tygodniu'     # prošlog tjedna
+        - 'zeszłego lata'          # prošlog ljeta
+        - 'za kilka miesięcy'      # za nekoliko miesięcy
+        - 'późne lata 30.'         # kasnim 30-ima
+        - 'środkowe lata 40.'      # srednjim czterdesetima
+        - 'w średnim wieku'        # srednjoj dobi
+
+
+    - name: DATE
+      regex: '\b(?:(zero|jeden|dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt)(\s+i\s+(jeden|dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć))?)\s+(lat|lata|roku|wiek|doby)\b'
+      confidence: 0.6
+      keywords:
+        - 'rok'                            # godina
+        - 'lata'                           # godine
+        - 'roku'                           # godinu
+        - 'wiek'                           # dob
+        - 'doby'                           # dobi
+        - 'obchodził'                      # proslavio
+        - 'obchodziła'                     # proslavila
+        - 'urodziny'                       # rođendan
+        - 'ukończył'                       # napunio
+        - 'ukończyła'                      # napunila
+        - 'urodzony'                       # rođen
+        - 'urodzona'                       # rođena
+        - 'maja'                           # svibnja
+        - 'stycznia'                       # siječnju
+        - 'marca'                          # ožujku
+        - 'w zeszłym tygodniu'             # prošlog tjedna
+        - 'zeszłego lata'                  # prošlog ljeta
+        - 'w zeszłym roku'                 # prošle godine
+        - 'w zeszły piątek'                # prošli petak
+        - 'w zeszłym miesiącu'             # prošli mjesec
+        - 'za kilka miesięcy'              # za nekoliko mjeseci
+        - 'w przyszłym miesiącu'           # sljedeći miesiąc
+        - 'w przyszły luty'                # sljedeći veljače
+        - 'późne lata 30.'                 # kasnim 30-ima
+        - 'środkowe lata 40.'              # srednjim czterdesetima
+        - 'w średnim wieku'                # srednjoj dobi
+        - 'pomiędzy'                       # između
+        - 'mój wiek to'                    # moja dob je
+        - 'został'                         # postao
+        - 'została'                        # postala
+        - 'emerytura'                      # mirovina
+        - 'przeszedł na emeryturę'         # išao u mirovinu
+        - 'przeszedł na emeryturę'         # penzionirao se
+        - 'założyła firmę'                 # osnovala je tvrtku
+        - 'doświadczenie zawodowe'         # radnog iskustva
+        - 'obecnie pracuję'                # trenutno sam zaposlen
+        - 'uczę się na studiach magisterskich'  # pohađam magistarski studij
+
+
+
+    - name: DATE
+      regex: '(?<=\s|\.)\b(sty|lut|mar|kwi|maj|cze|lip|sie|wrz|paź|lis|gru|styczeń|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)\s+(0?[1-9]|[12]\d|3[01]),?\s*?(\d{2}|\d{4})\b(?=\s|\.)'
+      confidence: 0.5
+      keywords:
+        - 'miesiąc'                    # month / Monat / mes / μήνας / hónap
+        - 'wiek'                       # old / Alter / edad / ηλικία / kor / dob / dobi
+        - 'skończyć'                   # turn / Umdrehung / giro / στροφή / fordulat
+        - 'y/o'                        # y/o
+        - 'urodziny'                   # birthday / rođendan
+        - 'narodziny'                  # birth
+        - 'lata'                       # years / Jahre / años / χρόνια / évek / godine
+        - 'stary'                      # alt / viejo / παλιός / öreg
+        - 'rok'                        # godina / godinu
+        - 'obchodził'                  # proslavio
+        - 'obchodziła'                 # proslavila
+        - 'ukończył'                   # napunio
+        - 'ukończyła'                  # napunila
+        - 'urodzony'                   # rođen
+        - 'urodzona'                   # rođena
+        - 'maja'                       # svibnja
+        - 'stycznia'                   # siječnju
+        - 'marca'                      # ožujku
+        - 'w zeszłym tygodniu'         # prošlog tjedna
+        - 'zeszłego lata'              # prošlog ljeta
+        - 'za kilka miesięcy'          # za nekoliko mjeseci
+        - 'późne lata 30.'             # kasnim 30-ima
+        - 'środkowe lata 40.'          # srednjim czterdesetima
+        - 'w średnim wieku'            # srednjoj dobi
+
+
+    - name: DATE
+      regex: '\b(0?[1-9]|[12]\d|3[01])\.\s*(stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)[a-z]*[.,]?\s*(\d{4}|\d{2})\b'
+      confidence: 0.5
+      keywords:
+        - 'rok'                            # godina
+        - 'lata'                           # godine
+        - 'roku'                           # godinu
+        - 'wiek'                           # dob / dobi
+        - 'obchodził'                      # proslavio
+        - 'obchodziła'                     # proslavila
+        - 'urodziny'                       # rođendan
+        - 'ukończył'                       # napunio
+        - 'ukończyła'                      # napunila
+        - 'urodzony'                       # rođen
+        - 'urodzona'                       # rođena
+        - 'stycznia'                       # siječnja
+        - 'lutego'                         # veljače
+        - 'marca'                          # ożujka
+        - 'kwietnia'                       # travnja
+        - 'maja'                           # svibnja
+        - 'czerwca'                        # lipnja
+        - 'lipca'                          # srpnja
+        - 'sierpnia'                       # kolovoza
+        - 'września'                       # rujna
+        - 'października'                   # listopada
+        - 'listopada'                      # studenoga
+        - 'grudnia'                        # prosinca
+        - 'w zeszłym tygodniu'             # prošlog tjedna
+        - 'zeszłego lata'                  # prošlog ljeta
+        - 'w zeszłym roku'                 # prošle godine
+        - 'w zeszły piątek'                # prošli petak
+        - 'w zeszłym miesiącu'             # prošli mjesec
+        - 'za kilka miesięcy'              # za nekoliko mjeseci
+        - 'w przyszłym miesiącu'           # sljedeći miesiąc
+        - 'w przyszły luty'                # sljedeći veljače
+        - 'późne lata 30.'                 # kasnim 30-ima
+        - 'środkowe lata 40.'              # srednjim czterdesetima
+        - 'w średnim wieku'                # srednjoj dobi
+        - 'pomiędzy'                       # između
+        - 'mój wiek to'                    # moja dob je
+        - 'został'                         # postao
+        - 'została'                        # postala
+        - 'emerytura'                      # mirovina
+        - 'przeszedł na emeryturę'         # išao w mirovinu / penzionirao se
+        - 'założyła firmę'                 # osnovala je tvrtku
+        - 'doświadczenie zawodowe'         # radnog iskustva
+        - 'obecnie pracuję'                # trenutno sam zaposlen
+        - 'uczę się na studiach magisterskich'  # pohađam magistarski studij
+
+
+
+    - name: DATE
+      regex: '\b(?:\d{1,3}\.?|(?:dwudziest|trzydziest|czterdziest|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto)(?:\s+i\s+(pierwsze|drugie|trzecie|czwarte|piąte|szóste|siódme|ósme|dziewiąte))?)\s+(urodziny|rocznica)\b'
+      confidence: 0.5
+      keywords:
+        - 'miesiąc'                       # month / Monat / mes / μήνας / hónap
+        - 'wiek'                          # old / Alter / edad / ηλικία / kor / dob / dobi
+        - 'skończyć'                      # turn / Umdrehung / giro / στροφή / fordulat
+        - 'y/o'                           # y/o
+        - 'urodziny'                      # birthday / rođendan
+        - 'narodziny'                     # birth
+        - 'lata'                          # years / Jahre / años / χρόνια / évek / godine
+        - 'stary'                         # alt / viejo / παλιός / öreg
+        - 'rok'                           # godina / godinu
+        - 'obchodził'                     # proslavio
+        - 'obchodziła'                    # proslavila
+        - 'ukończył'                      # napunio
+        - 'ukończyła'                     # napunila
+        - 'urodzony'                      # rođen
+        - 'urodzona'                      # rođena
+        - 'maja'                          # svibnja
+        - 'stycznia'                      # siječnju
+        - 'marca'                         # ožujku
+        - 'w zeszłym tygodniu'            # prošlog tjedna
+        - 'zeszłego lata'                 # prošlog ljeta
+        - 'za kilka miesięcy'             # za nekoliko mjeseci
+        - 'późne lata 30.'                # kasnim 30-ima
+        - 'środkowe lata 40.'             # srednjim czterdesetima
+        - 'w średnim wieku'               # srednjoj dobi
+
+
+    - name: DATE
+      regex: '\b(?:\d{1,3}\.|(?:dwudziesty|trzydziesty|czterdziesty|pięćdziesiąty|sześćdziesiąty|siedemdziesiąty|osiemdziesiąty|dziewięćdziesiąty|setny|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty))\s+(urodziny|rocznica)\b'
+      confidence: 0.5
+      keywords:
+        - 'rok'                            # godina
+        - 'lata'                           # godine
+        - 'roku'                           # godinu
+        - 'wiek'                           # dob / dobi
+        - 'obchodził'                      # proslavio
+        - 'obchodziła'                     # proslavila
+        - 'urodziny'                       # rođendan
+        - 'rocznica'                       # godišnjica
+        - 'ukończył'                       # napunio
+        - 'ukończyła'                      # napunila
+        - 'urodzony'                       # rođen
+        - 'urodzona'                       # rođena
+        - 'stycznia'                       # siječnja
+        - 'lutego'                         # veljače
+        - 'marca'                          # ožujka
+        - 'kwietnia'                       # travnja
+        - 'maja'                           # svibnja
+        - 'czerwca'                        # lipnja
+        - 'lipca'                          # srpnja
+        - 'sierpnia'                       # kolovoza
+        - 'września'                       # rujna
+        - 'października'                   # listopada
+        - 'listopada'                      # studenoga
+        - 'grudnia'                        # prosinca
+        - 'w zeszłym tygodniu'             # prošlog tjedna
+        - 'zeszłego lata'                  # prošlog ljeta
+        - 'w zeszłym roku'                 # prošle godine
+        - 'w zeszły piątek'                # prošli petak
+        - 'w zeszłym miesiącu'             # prošli miesiąc
+        - 'za kilka miesięcy'              # za nekoliko mjeseci
+        - 'w przyszłym miesiącu'           # sljedeći miesiąc
+        - 'w przyszły luty'                # sljedeći veljače
+        - 'późne lata 30.'                 # kasnim 30-ima
+        - 'środkowe lata 40.'              # srednjim czterdesetima
+        - 'w średnim wieku'                # srednjoj dobi
+        - 'pomiędzy'                       # između
+        - 'mój wiek to'                    # moja dob je
+        - 'został'                         # postao
+        - 'została'                        # postala
+        - 'emerytura'                      # mirovina
+        - 'przeszedł na emeryturę'         # išao w mirovinu / penzionirao se
+        - 'założyła firmę'                 # osnovala je tvrtku
+        - 'doświadczenie zawodowe'         # radnog iskustva
+        - 'obecnie pracuję'                # trenutno sam zaposlen
+        - 'uczę się na studiach magisterskich'  # pohađam magistarski studij
+
+
+
+    - name: DATE
+      regex: '\b(?:wczesne|środkowe|późne)[\s-]?(?:\d{1,2}\.?|dwudzieste|trzydzieste|czterdzieste|pięćdziesiąte|sześćdziesiąte|siedemdziesiąte|osiemdziesiąte|dziewięćdziesiąte)\b'
+      confidence: 0.5
+      keywords:
+        - 'miesiąc'                        # month / Monat / mes / μήνας / hónap
+        - 'wiek'                           # old / Alter / edad / ηλικία / kor / dob / dobi
+        - 'skończyć'                       # turn / Umdrehung / giro / στροφή / fordulat
+        - 'y/o'                            # y/o
+        - 'urodziny'                       # birthday / rođendan
+        - 'narodziny'                      # birth
+        - 'lata'                           # years / Jahre / años / χρόνια / évek / godine
+        - 'stary'                          # alt / viejo / παλιός / öreg
+        - 'rok'                            # godina / godinu
+        - 'obchodził'                      # proslavio
+        - 'obchodziła'                     # proslavila
+        - 'ukończył'                       # napunio
+        - 'ukończyła'                      # napunila
+        - 'urodzony'                       # rođen
+        - 'urodzona'                       # rođena
+        - 'maja'                           # svibnja
+        - 'stycznia'                       # siječnju
+        - 'marca'                          # ožujku
+        - 'w zeszłym tygodniu'             # prošlog tjedna
+        - 'zeszłego lata'                  # prošlog ljeta
+        - 'za kilka miesięcy'              # za nekoliko mjeseci
+        - 'późne lata 30.'                 # kasnim 30-ima
+        - 'środkowe lata 40.'              # srednjim czterdesetima
+        - 'w średnim wieku'                # srednjoj dobi
+
+
+    - name: DATE
+      regex: '\b(?:\d{1,2}\.?\s+(stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia),?\s+\d{2,4})\b'
+      confidence: 0.5
+      keywords:
+        - 'miesiąc'                  # month / Monat / mes / μήνας / hónap
+        - 'wiek'                     # old / alt / viejo / παλιός / öreg
+        - 'skończyć'                 # turn / Umdrehung / giro / στροφή / fordulat
+        - 'wiek'                     # age / Alter / edad / ηλικία / kor
+        - 'y/o'                      # y/o
+        - 'urodziny'                 # birthday / Geburtstag / cumpleaños / γενέθλια / születésnap / rođendan
+        - 'narodziny'                # birth / Geburt / nacimiento / γέννηση / születés
+        - 'lata'                     # years / Jahre / años / χρόνια / évek / godine
+        - 'rok'                      # godina / Jahr
+        - 'urodzony'                 # rođen
+        - 'urodzona'                 # rođena
+        - 'ukończył'                 # napunio
+        - 'ukończyła'                # napunila
+        - 'obchodził'                # proslavio
+        - 'obchodziła'               # proslavila
+        - 'maja'                     # svibnja
+        - 'stycznia'                 # siječnju
+        - 'marca'                    # ožujku
+        - 'w zeszłym tygodniu'       # prošlog tjedna
+        - 'zeszłego lata'            # prošlog ljeta
+        - 'za kilka miesięcy'        # za nekoliko mjeseci
+        - 'późne lata 30.'           # kasnim 30-ima
+        - 'środkowe lata 40.'        # srednjim czterdesetima
+        - 'w średnim wieku'          # srednjoj dobi
+
+
+    - name: DATE
+      regex: '\b(?:stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)\s+(?:(?:\d{1,2})|(?:pierwszego|drugiego|trzeciego|czwartego|piątego|szóstego|siódmego|ósmego|dziewiątego|dziesiątego|jedenastego|dwunastego|trzynastego|czternastego|piętnastego|szesnastego|siedemnastego|osiemnastego|dziewiętnastego|dwudziestego(?:\s+pierwszego|drugiego|trzeciego|czwartego|piątego|szóstego|siódmego|ósmego|dziewiątego)?|trzydziestego\s+pierwszego))\s*,?\s*(?:\d{2}|\d{4})\b'
+      confidence: 0.5
+      keywords:
+        - 'miesiąc'                  # month / Monat / mes / μήνας / hónap
+        - 'wiek'                     # old / alt / viejo / παλιός / öreg
+        - 'skończyć'                 # turn / Umdrehung / giro / στροφή / fordulat
+        - 'wiek'                     # age / Alter / edad / ηλικία / kor
+        - 'y/o'                      # y/o
+        - 'urodziny'                 # birthday / Geburtstag / cumpleaños / γενέθλια / születésnap / rođendan
+        - 'narodziny'                # birth / Geburt / nacimiento / γέννηση / születés
+        - 'lata'                     # years / Jahre / años / χρόνια / évek / godine
+        - 'rok'                      # godina / Jahr
+        - 'urodzony'                 # rođen
+        - 'urodzona'                 # rođena
+        - 'ukończył'                 # napunio
+        - 'ukończyła'                # napunila
+        - 'obchodził'                # proslavio
+        - 'obchodziła'               # proslavila
+        - 'maja'                     # svibnja
+        - 'stycznia'                 # siječnju
+        - 'marca'                    # ožujku
+        - 'w zeszłym tygodniu'       # prošlog tjedna
+        - 'zeszłego lata'            # prošlog ljeta
+        - 'za kilka miesięcy'        # za nekoliko mjeseci
+        - 'późne lata 30.'           # kasnim 30-ima
+        - 'środkowe lata 40.'        # srednjim čterdesetima
+        - 'w średnim wieku'          # srednjoj dobi
+
+
+    - name: DATE
+      regex: '\b(?:(?:(?:pierwszego|drugiego|trzeciego|czwartego|piątego|szóstego|siódmego|ósmego|dziewiątego|dziesiątego|jedenastego|dwunastego|trzynastego|czternastego|piętnastego|szesnastego|siedemnastego|osiemnastego|dziewiętnastego|dwudziestego|trzydziestego(?:\s+pierwszego)?)|\d{1,2})\s+(stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)\s*,?\s*(\d{2}|\d{4}))\b'
+      confidence: 0.5
+      keywords:
+        - 'miesiąc'                    # month / Monat / mes / μήνας / hónap
+        - 'wiek'                       # old / alt / viejo / παλιός / öreg
+        - 'skończyć'                   # turn / Umdrehung / giro / στροφή / fordulat
+        - 'wiek'                       # age / Alter / edad / ηλικία / kor
+        - 'y/o'                        # y/o
+        - 'urodziny'                   # birthday / Geburtstag / cumpleaños / γενέθλια / születésnap / rođendan
+        - 'narodziny'                  # birth / Geburt / nacimiento / γέννηση / születés
+        - 'lata'                       # years / Jahre / años / χρόνια / évek / godine
+        - 'rok'                        # godina / Jahr
+        - 'urodzony'                   # rođen
+        - 'urodzona'                   # rođena
+        - 'ukończył'                   # napunio
+        - 'ukończyła'                  # napunila
+        - 'obchodził'                  # proslavio
+        - 'obchodziła'                 # proslavila
+        - 'maja'                       # svibnja
+        - 'stycznia'                   # siječnju
+        - 'marca'                      # ožujku
+        - 'w zeszłym tygodniu'         # prošlog tjedna
+        - 'zeszłego lata'              # prošlog ljeta
+        - 'za kilka miesięcy'          # za nekoliko mjeseci
+        - 'późne lata 30.'             # kasnim 30-ima
+        - 'środkowe lata 40.'          # srednjim czterdesetima
+        - 'w średniej dobie'           # średnjoj dobi
+
+
+    - name: GERMAN_VISA
+      regex: \b[0-9]{9}\b
+      confidence: 0.5
+      keywords:
+        - 'wiza'                        # visa
+        - 'niemiecka wiza'             # German visa / deutsches Visum / visado alemán / γερμανική βίζα / német vízum
+        - 'dokument podróży'           # travel document / Reisedokument / documento de viaje / ταξιδιωτικό έγγραφο / utazási okmány
+
+    - name: POLISH_TAX_ID_NIP
+      regex: \b\d{10}\b
+      confidence: 0.65
+      keywords:
+        - 'nip'                        # tax ID
+        - 'numer identyfikacji podatkowej'  # tax identification number
+        - 'numer NIP'                  # NIP number
+        - 'identyfikator podatkowy'    # tax identifier
+        - 'numer podatkowy'            # tax number
+
+    - name: POLISH_VISA
+      regex: \b[0-9]{9}\b
+      confidence: 0.65
+      keywords:
+        - 'wiza'
+        - 'polska wiza'                  # Polish visa / polnisches Visum / visado polaco / polonική βίζα / lengyel vízum
+        - 'wiza krajowa'                 # national visa
+        - 'wiza Schengen'                # Schengen visa
+        - 'dokument podróży'             # travel document / Reisedokument / documento de viaje / ταξιδιωτικό έγγραφο / utazási okmány
+        - 'naklejka wizowa'              # visa sticker
+
+    - name: PESEL
+      regex: \b\d{2}(0[1-9]|1[0-2]|2[1-9]|3[0-2]|4[1-9]|5[0-2]|6[1-9]|7[0-2]|8[1-9]|9[0-2])(0[1-9]|[12]\d|3[01])\d{5}\b
+      confidence: 0.5
+      keywords:
+        - 'PESEL'                          # Polish National Identification Number
+        - 'numer PESEL'                    # PESEL number / Polish citizen ID
+        - 'identyfikator ludności'         # population register identifier
+        - 'numer identyfikacyjny'          # identification number
+        - 'dowód osobisty'                 # personal ID / national identity document
+
+    - name: LICENSE_PLATE_NUMBER
+      regex: \b[A-Z]{1,3}\s?[A-Z0-9]{1,5}\b
+      confidence: 0.7
+      keywords:
+        - 'tablica rejestracyjna'          # license plate
+        - 'numer rejestracyjny'            # registration number
+        - 'rejestracja pojazdu'            # vehicle registration
+        - 'numer tablicy'                  # plate number
+        - 'numer tablicy rejestracyjnej'   # license plate number
+
+      # Polish
+    - name: PHONE_NUMBER
+      regex: '(?:\+48\s?|0)?(?:\d{9}|\d{3}[\s-]?\d{3}[\s-]?\d{3})'
+      confidence: 0.7
+      keywords:
+        - 'numer telefonu'      # phone number
+        - 'telefon'             # telephone
+        - 'kontakt telefoniczny' # phone contact
+        - 'zadzwoń'             # call
+        - 'komórka'             # mobile phone
+        - 'telefon komórkowy'   # mobile phone
+        - 'telefon stacjonarny' # landline phone
+
+      # Polish
+    - name: DRIVER_LICENSE
+      regex: '\b[A-Z]{2}\d{6}\b'
+      confidence: 0.65
+      keywords:
+        - 'prawo jazdy'                   # driving license
+        - 'numer prawa jazdy'             # driving license number
+        - 'polskie prawo jazdy'           # Polish driving license
+        - 'dokument prawa jazdy'          # driving license document
+        - 'kategoria prawa jazdy'         # driving license category
+        - 'dokument kierowcy'             # driver document
+
+    - name: GERMAN_ID
+      regex: \b(?i:(([lmnprtvwxy] ?[0-9cfghjklmnprtvwxyzo]{8}[0-9]?|[0-9]{10})[d]?))\b
+      confidence: 0.5
+      keywords:
+        - 'dowód osobisty'               # ID card / Personalausweis / tarjeta de identificación / ταυτότητα / személyi igazolvány
+        - 'niemiecki dowód'             # German ID / deutscher Ausweis / identificación alemana / γερμανική ταυτότητα / német igazolvány
+        - 'identyfikacja'               # identification / Identifikation / identificación / ταυτοποίηση / azonosítás
+
+
+    - name: GERMAN_PRE_ID
+      regex: \b(?i:(([lmnprtvwxy] ?[0-9cfghjklmnprtvwxyzo]{8}[0-9]?|[0-9]{10})[d]?))\b
+      confidence: 0.5
+      keywords:
+        - 'dowód osobisty'               # ID card / Personalausweis / tarjeta de identificación / ταυτότητα / személyi igazolvány
+        - 'niemiecki dowód'             # German ID / deutscher Ausweis / identificación alemana / γερμανική ταυτότητα / német igazolvány
+        - 'identyfikacja'               # identification / Identifikation / identificación / ταυτοποίηση / azonosítás
+
+
+    - name: ROMANIAN_ID
+      regex: \b[1-9]\d{2}(0[1-9]|1[0-2])(0[1-9]|\d|3[1])(0[1-9]|[1-4]\d|5[0-2]|99)(00[1-9]|0[1-9]\d|[1-9]\d\d)\d\b
+      confidence: 0.5
+      keywords:
+        - 'dowód osobisty'               # ID card / Personalausweis / tarjeta de identificación / ταυτότητα / személyi igazolvány
+        - 'niemiecki dowód'             # German ID / deutscher Ausweis / identificación alemana / γερμανική ταυτότητα / német igazolvány
+        - 'identyfikacja'               # identification / Identifikation / identificación / ταυτοποίηση / azonosítás
+
+
+    - name: POLISH_ID
+      regex: \b[0-9]{2}([02468]1|[13579][012])(0[1-9]|1[0-9]|2[0-9]|3[1])[0-9]{5}\b
+      confidence: 0.5
+      keywords:
+        - 'dowód osobisty'                # ID card / Personalausweis / tarjeta de identificación / ταυτότητα / személyi igazolvány
+        - 'niemiecki dowód'              # German ID / deutscher Ausweis / identificación alemana / γερμανική ταυτότητα / német igazolvány
+        - 'identyfikacja'                # identification / Identifikation / identificación / ταυτοποίηση / azonosítás
+
+
+    #generic
+    - name: DRIVER_LICENSE
+      regex: \b(\d{4}[A-Z0-9]{5}[A-Z0-9][A-Z0-9]{2})\b
+      confidence: 0.6
+      keywords:
+        - 'prawo jazdy'                 # driver's license / Führerschein / licencia de conducir / permis de conduire
+        - 'numer prawa jazdy'          # license number / Führerscheinnummer / número de licencia
+        - 'identyfikacja'              # identification
+        - 'dokument'                   # document
+        - 'jazda'                      # driving / οδήγηση
+        - 'dowód osobisty'            # ID
+
+    # generic
+    - name: DRIVER_LICENSE
+      regex: \b(\d{4}[A-Z0-9]{5}[A-Z0-9]{2})\b
+      confidence: 0.6
+      keywords:
+        - 'prawo jazdy'               # driver's license / Führerschein / licencia de conducir / permis de conduire / άδεια οδήγησης
+        - 'numer prawa jazdy'         # license number / Führerscheinnummer / número de licencia
+        - 'identyfikacja'             # identification
+        - 'dowód osobisty'            # ID
+        - 'dokument'                  # document
+        - 'prowadzenie pojazdu'      # driving / οδήγηση / vezetői engedély / vezetői igazolvány
+
+    # austrian
+    - name: DRIVER_LICENSE
+      regex: \b[A-F]\-\d{2}\/\d+\b
+      confidence: 0.5
+      keywords:
+        - 'prawo jazdy'                          # driver license / Führerschein / licencia de conducir / άδεια οδήγησης / vezetői engedély
+        - 'austriackie prawo jazdy'             # Austrian driver license / österreichischer Führerschein / licencia de conducir austríaca / αυστριακή άδεια οδήγησης / osztrák vezetői engedély
+
+
+    - name: TAX_IDENTIFICATION_NR
+      regex: \b\d{2}[-\s]?\d{3}[-\s]?\d{3}[-\s]?\d{3}\b
+      confidence: 0.5
+      keywords:
+        - 'numer identyfikacji podatkowej'              # tax identification number / Steueridentifikationsnummer / número de identificación fiscal / αριθμός φορολογικής ταυτότητας / adóazonosító jel
+        - 'osobisty numer identyfikacji podatkowej'     # personal tax identification number / Steuer-ID / número de identificación personal
+
+
+    - name: GERMAN_SSN
+      regex: '\b\d{2}[-\s]*\d{6}[-\s]*[A-Z][-\s]*\d{2}[-\s]*\b'
+      confidence: 0.9
+      keywords:
+        - 'numer ubezpieczenia społecznego'         # Social Security Number / Sozialversicherungsnummer
+        - 'NUS'                                     # SSN / ssn
+        - 'ubezpieczenie społeczne'                 # social security / Sozialversicherung
+        - 'ubezpieczenie'                           # social insurance
+        - 'numer ubezpieczenia'                     # insurance number
+        - 'numer rejonu'                            # area number
+        - 'data urodzenia'                          # date of birth
+        - 'płeć'                                    # gender
+        - 'cyfra kontrolna'                         # check digit
+
+
+    # internet
+    - name: IMEI
+      regex: (?i)\b[0-9]{14,15}\b
+      confidence: 0.5
+      keywords:
+        - 'IMEI'                          # IMEI
+        - 'IMEI telefonu'                # phone IMEI / Telefon-IMEI / IMEI del teléfono / IMEI του κινητού / telefon IMEI
+        - 'ID urządzenia'               # device ID / Geräte-ID / ID del dispositivo / ID συσκευής / eszköz azonosító
+
+
+    - name: MAC_ADDRESS
+      regex: (?i)\b([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})\b
+      confidence: 0.3
+      keywords:
+        - 'adres MAC'                  # MAC address / MAC-Adresse / dirección MAC / διεύθυνση MAC
+        - 'MAC'                        # MAC
+        - 'identyfikator sieci'        # network ID / Netzwerk-ID / ID de red / ID δικτύου / hálózati azonosító
+        - 'MAC urządzenia'            # device MAC / Geräte-MAC / MAC del dispositivo / MAC συσκευής / eszköz MAC
+
+    - name: MAC_ADDRESS
+      regex: (?i)\b([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})\b
+      confidence: 0.8
+      keywords:
+        - 'adres MAC'                  # MAC address / MAC-Adresse / dirección MAC / διεύθυνση MAC
+        - 'MAC'                        # MAC
+        - 'identyfikator sieci'        # network ID / Netzwerk-ID / ID de red / ID δικτύου / hálózati azonosító
+        - 'MAC urządzenia'             # device MAC / Geräte-MAC / MAC del dispositivo / MAC συσκευής / eszköz MAC
+
+    - name: MAC_ADDRESS
+      regex: (?i)\b([0-9A-Fa-f]{2}\:+){5}([0-9A-Fa-f]{2})\b
+      confidence: 0.3
+      keywords:
+        - 'adres MAC'                  # MAC address / MAC-Adresse / dirección MAC / διεύθυνση MAC
+        - 'MAC'                        # MAC
+        - 'identyfikator sieci'        # network ID / Netzwerk-ID / ID de red / ID δικτύου / hálózati azonosító
+        - 'MAC urządzenia'             # device MAC / Geräte-MAC / MAC del dispositivo / MAC συσκευής / eszköz MAC
+
+
+    - name: MAC_ADDRESS
+      regex: (?i)\b(?:[0-9A-Fa-f]{2}\.){5}[0-9A-Fa-f]{2}\b
+      confidence: 0.3
+      keywords:
+        - 'adres MAC'                  # MAC address / MAC-Adresse / dirección MAC / διεύθυνση MAC
+        - 'MAC'                        # MAC
+        - 'identyfikator sieci'        # network ID / Netzwerk-ID / ID de red / ID δικτύου / hálózati azonosító
+        - 'MAC urządzenia'             # device MAC / Geräte-MAC / MAC del dispositivo / MAC συσκευής / eszköz MAC
+
+    - name: IBAN
+      regex: (?i)\bDE[0-9]{2}[ ]?([0-9][ ]?){4}([0-9][ ]?){4}([0-9][ ]?){4}([0-9][ ]?){4}([0-9]){2}\b
+      confidence: 0.5
+      keywords:
+        - 'IBAN'                       # IBAN
+        - 'konto bankowe'             # bank account / Kontonummer / número de cuenta / αριθμός λογαριασμού / bankszámlaszám
+        - 'kod IBAN'                  # IBAN-Code / código IBAN / IBAN-kód
+        - 'numer rachunku'            # número de cuenta / Kontonummer
+        - 'kod bankowy'               # κωδικός
+
+
+    - name: SOCIAL_MEDIA_HANDLE
+      regex: (?i)(?<=\W)@[a-zA-Z0-9_\.]+
+      confidence: 0.3
+      keywords:
+        - 'Twitter'                  # Twitter
+        - 'x'                        # x
+        - 'społecznościowe'          # social
+        - 'nazwa użytkownika'        # handle / Benutzername / ονόματος χρήστη / felhasználónév
+        - 'media'                    # media
+        - 'sns'                      # sns
+        - 'linkedin'                 # linkedin
+        - 'insta'                    # insta
+        - 'gram'                     # gram
+        - 'snap'                     # snap
+        - 'chat'                     # chat
+        - 'dodaj mnie'               # add me
+        - 'ig'                       # ig
+        - 'facebook'                 # facebook
+        - 'fb'                       # fb
+        - 'wa'                       # wa
+        - 'whatsapp'                 # whatsapp
+        - 'użytkownik'               # user / Nutzer / usuario / χρήστης / felhasználó
+        - 'obserwuj'                 # follow / folgen / seguir / ακολουθήστε / követés
+        - 'youtube'                  # youtube / You Tube
+        - 'media społecznościowe'   # Soziale Medien / medios sociales / κοινωνικά μέσα / szociális média
+        - 'alias'                    # manejo / Handle / χειριστής / kezelő
+
+    # DT specific
+    - name: AUSTRIAN_CUSTOMER_NUMBER
+      regex: \b1\.[0-9]{8}\b
+      confidence: 0.5
+      keywords:
+        - 'numer klienta'                # customer number / client number / Kundennummer / número de cliente / αριθμός πελάτη / ügyfél szám
+        - 'ID klienta'                   # customer ID / client ID / Kunden-ID / Kundenkennung / identificador de cliente / ταυτότητα πελάτη / ügyfél azonosító / ügyfél ID
+
+
+    - name: CUSTOMER_NR
+      regex: \b[0-9]{2}[\s\-]?[0-9]{4}[\s\-]?[0-9]{4}\b
+      confidence: 0.5
+      keywords:
+        - 'numer klienta'                # customer number / client number / Kundennummer / número de cliente / αριθμός πελάτη / ügyfél szám
+        - 'ID klienta'                   # customer ID / client ID / Kunden-ID / Kundenkennung / identificador de cliente / ταυτότητα πελάτη / ügyfél azonosító / ügyfél ID
+
+
+    - name: CUSTOMER_NR
+      regex: \b\d{6,10}\b
+      confidence: 0.4
+      keywords:
+        - 'numer klienta'          # customer number / client number / Kundennummer / número de cliente / αριθμός πελάτη / ügyfél szám
+        - 'ID klienta'             # customer ID / client ID / Kunden-ID / Kundenkennung / identificador de cliente / ταυτότητα πελάτη / ügyfél azonosító / ügyfél ID
+
+
+    - name: BILLING_NR
+      regex: \b[0-9]{2}[\s\-]*[0-9]{4}[\s\-]*[0-9]{4}[\s\-]*[0-9]{4}\b
+      confidence: 0.5
+      keywords:
+        - 'numer rozliczeniowy'         # billing number / Abrechnungsnummer / número de facturación / αριθμός χρέωσης / fizetési szám
+        - 'numer faktury'               # invoice number / Rechnungsnummer / número de factura / számla szám
+        - 'numer rachunku'              # número de cobro / αριθμός λογαριασμού / számlázási szám
+        - 'numer do fakturowania'       # billing number (alternative phrasing)
+
+
+    - name: CARD_PROFILE_NR
+      regex: \b[0-9][\s\-]?[0-9]{5}[\s\-]?[0-9]{5}[\s\-]?[0-9]{8}[\s\-]?[0-9]{1}\b
+      confidence: 0.5
+      keywords:
+        - 'numer profilu karty'           # card profile number / Kartenprofilnummer / número de perfil de tarjeta / αριθμός προφίλ καρτών / kártya profil szám
+        - 'identyfikator karty'           # card ID / Karten-ID / identificador de tarjeta / ταυτότητα καρτών / kártya azonosító
+        - 'numer karty'                   # número de tarjeta / αριθμός καρτών / kártya szám
+
+    - name: CONTRACT_ENTR_NR
+      regex: \b[0-9]{6}[\s\-]?[0-9]{8}\b
+      confidence: 0.5
+      keywords:
+        - 'numer wpisu umowy'             # contract entry number / número de entrada de contrato / αριθμός εισόδου συμβολαίου / szerződés belépési szám
+        - 'identyfikator umowy'           # contract ID / Vertrags-ID / identificador de contrato / ταυτότητα συμβολαίου / szerződés azonosító
+        - 'numer umowy'                   # Vertragsnummer / número de contrato / αριθμός συμβολαίου / szerződés szám
+
+
+    - name: BOOKING_ACCOUNT
+      regex: ^\d{3}[- ]\d{3}[- ]\d{4}
+      confidence: 0.5
+      keywords:
+        - 'numer konta rezerwacji'       # booking account number / Buchungskontonummer
+        - 'rezerwacja'                   # booking / Reservation / Reservierung
+        - 'konto'                        # account / Konto
+        - 'potwierdzenie'                # Confirmation / Bestätigung
+        - 'transakcja'                   # transaction / Transaktionen
+
+
+#Custom RECOGNIZERS
+
+#billing_number_recognizer
+billing_number_recognizer:
+  custom_billing_number:
+    - name: "Billing Number (Formatted)"
+      regex: '(?<!\d)\b\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b'
+      confidence: 0.8
+      keywords: *shared_keywords_billing_number
+
+    - name: "Billing Number (Unformatted)"
+      regex: '(?<!\d)\b\d{14}\b'
+      confidence: 0.8
+      keywords: *shared_keywords_billing_number
+
+#credit_card_recognizer
+credit_card_recognizer:
+  custom_credit_card:
+    - name: "Visa/Mastercard/Amex Card"
+      regex: '\b((4\d{3}|5[1-5]\d{2}|2\d{3}|3[47]\d{1,2})[\s\-]?\d{4,6}[\s\-]?\d{4,6}?([\s\-]\d{3,4})?(\d{3})?)\b'
+      confidence: 0.3
+      keywords: *shared_keywords_credit_card
+
+    - name: "Amex Card"
+      regex: '\b3[47][0-9]{13}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "BCGlobal"
+      regex: '\b(6541|6556)[0-9]{12}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Carte Blanche Card"
+      regex: '\b389[0-9]{11}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Diners Club Card"
+      regex: '\b3(?:0[0-5]|[68][0-9])[0-9]{11}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Discover Card"
+      regex: '\b65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Insta Payment Card"
+      regex: '\b63[7-9][0-9]{13}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "JCB Card"
+      regex: '\b(?:2131|1800|35\d{3})\d{11}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Korean Local Card"
+      regex: '\b9[0-9]{15}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Maestro Card"
+      regex: '\b(5018|5020|5038|6304|6759|6761|6763)[0-9]{8,15}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "MasterCard"
+      regex: '\b(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Union Pay Card"
+      regex: '\b(62[0-9]{14,17})\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Visa Card"
+      regex: '\b4[0-9]{12}(?:[0-9]{3})?\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "Visa Master Card"
+      regex: '\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})\b'
+      confidence: 0.2
+      keywords: *shared_keywords_credit_card
+
+    - name: "All Credit Cards (weak)"
+      regex: '\b((4\d{3})|(5[0-5]\d{2})|(6\d{3})|(1\d{3})|(3\d{3}))[- ]?(\d{3,4})[-
+        ]?(\d{3,4})[- ]?(\d{3,5})\b'
+      confidence: 0.3
+      keywords: *shared_keywords_credit_card
+    - name: "All Credit Cards"
+      regex: '\b(?:4\d{3}|5[1-5]\d{2}|2\d{3}|3[47]\d{1,2})[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{1,4}\b'
+      confidence: 0.3
+      keywords: *shared_keywords_credit_card
+
+
+#email_recognizer
+email_recognizer:
+  custom_email:
+    - name: "Email Address (Monster)"
+      regex: '(?i)\b(?:[a-z0-9!#$%&''*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])\b'
+      confidence: 0.4
+      keywords: *shared_keywords_email
+    - name: "Email Address (Definite)"
+      regex: '(?i)\b([\w\d._%+-]+@[\w\d._%+-]+(\.[\w\d]+)+)\b'
+      confidence: 0.95
+      keywords: *shared_keywords_email
+    - name: "Email Address (Common Regex)"
+      regex: '(?i)([a-z0-9!#$%&''*+\/=?^_`{|.}~-]+@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)'
+      confidence: 0.8
+      keywords: *shared_keywords_email
+    - name: "Email Address (Extended)"
+      regex: '(?i)([a-z0-9!#$%&''*+/?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/?^_`{|}~-]+)*)(\+[\w-]*)?@([a-z0-9-]+\.[a-z]{2,})(?:\.[a-z]{2,})?'
+      confidence: 0.9
+      keywords: *shared_keywords_email
+
+#ian_recognizer
+ian_recognizer:
+  custom_ian:
+    - name: INTERNET_ACCESS_NR
+      regex: '\b\d{22,}#\d{4,}@t-online.de'
+      confidence: 0.9
+      keywords: *shared_keywords_ian
+#IBAN
+iban_recognizer:
+  custom_iban:
+    - name: "IBAN Number"
+      regex: '\b[A-Z]{2}\d{2}[A-Z0-9]{1,30}\b'
+      confidence: 0.9
+      keywords: *shared_keywords_iban
+
+    - name: "IBAN Number"
+      regex: '[A-Z]{2}\d{2}(?:[ \d]{4}){4,7}[0-9]{2}'
+      confidence: 0.5
+      keywords: *shared_keywords_iban
+
+    - name: "IBAN Number edge cases"
+      regex: '\b[A-Z]{2}\d{2}\s?[A-Z0-9\s]{1,30}\b'
+      confidence: 0.9
+      keywords: *shared_keywords_iban
+
+    - name: "IBAN Number (with country specific format)"
+      regex: '\b([A-Z]{2}\d{2}[A-Z0-9]{4}[A-Z0-9]{2}[A-Z0-9]{4}[A-Z0-9]{10})\b'
+      confidence: 0.7
+      keywords: *shared_keywords_iban
+
+  #id_recognizer
+  id_recognizer:
+    custom_id:
+      - name: "ID with numbers and letters"
+        regex: '(?i)[A-Z\d]{5,}'
+        confidence: 0.2
+        keywords: *shared_keywords_id
+  #imei_recognizer
+  imei_recognizer:
+    custom_imei:
+      - name: "IMEI Number (Standard)"
+        regex: '\b(\d{15})\b'
+        confidence: 0.9
+        keywords: *shared_keywords_imei
+
+      - name: "IMEI Number (With Separators)"
+        regex: '\b(\d{2}[-\s]?\d{6}[-\s]?\d{6}[-\s]?\d{1})\b'
+        confidence: 0.85
+        keywords: *shared_keywords_imei
+
+      - name: "IMEI Number (With Multiple Separators)"
+        regex: '^(35|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59)\s*\d{6}\s*\d{6}\s*\d{1}$'
+        confidence: 0.85
+        keywords: *shared_keywords_imei
+
+      - name: "IMEI Number (Grouped)"
+        regex: '\b(\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{3})\b'
+        confidence: 0.8
+        keywords: *shared_keywords_imei
+#ip_address_recognizer
+ip_address_recognizer:
+  custom_ip_address:
+    - name: "IPv4 in CIDR notation"
+      regex: '\b((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(3[0-2]|[1-2]?[0-9])\b'
+      confidence: 0.7
+      keywords: *shared_keywords_ip_address
+
+    - name: "IPv6 in CIDR notation"
+      regex: '\b((?:[A-Fa-f0-9]{1,4}:){1,7}[A-Fa-f0-9]{1,4}|::(?:[A-Fa-f0-9]{1,4}:){0,6}[A-Fa-f0-9]{1,4})/(12[0-8]|[1-9]?[0-9])\b'
+      confidence: 0.6
+      keywords: *shared_keywords_ip_address
+
+    - name: "IPV6"
+      regex: '\b(?:[A-Fa-f0-9]{1,4}:){1,7}[A-Fa-f0-9]{1,4}\b|\b::(?:[A-Fa-f0-9]{1,4}:){0,6}[A-Fa-f0-9]{1,4}?\b'
+      confidence: 0.7
+      keywords: *shared_keywords_ip_address
+
+    - name: "IPV4"
+      regex: '\b((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\b'
+      confidence: 0.9
+      keywords: *shared_keywords_ip_address
+
+#network_address_recognizers
+network_address_recognizers:
+  custom_network_address:
+    - name: "IPv4 Address"
+      regex: '\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b'
+      confidence: 0.9
+      keywords: *shared_keywords_network_address
+
+    - name: "IPv6 Address (Uncompressed)"
+      regex: '\b([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\b'
+      confidence: 0.9
+      keywords: *shared_keywords_network_address
+
+    - name: "IPv6 Address (Compressed)"
+      regex: '\b([0-9a-fA-F]{1,4}:){1,7}:|:([0-9a-fA-F]{1,4}:){1,7}\b'
+      confidence: 0.85
+      keywords: *shared_keywords_network_address
+
+    - name: "MAC Address (Colon-separated)"
+      regex: '\b([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}\b'
+      confidence: 0.9
+      keywords: *shared_keywords_network_address
+
+    - name: "MAC Address (Hyphen-separated)"
+      regex: '\b([0-9a-fA-F]{2}-){5}[0-9a-fA-F]{2}\b'
+      confidence: 0.9
+      keywords: *shared_keywords_network_address
+
+    - name: "MAC Address (No separator)"
+      regex: '\b[0-9a-fA-F]{12}\b'
+      confidence: 0.8
+      keywords: *shared_keywords_network_address
+
+#phone_recognizer
+phone_recognizer:
+  custom_phonenumber:
+    - name: "Phone Number (Formatted)"
+      regex: '(?<![\d+])(?i)\b\+(?:[1-9]\d{,2})(?:[^\w\d]*\d){6,14}\b'
+      confidence: 0.7
+      keywords: *shared_keywords_phonenumber
+
+    - name: "Phone Number (unformatted)"
+      regex: '(?i)(?<![\d+])\b((\+\s*[1-9](?:[\s._-]*\d){,2}([\s._-]*[1-9](?:[\s._-]*\d){1,4})\([\s._-]*[1-9](?:[\s._-]*\d){2,6})([\s._-]*\-(?:[\s._-]*\d){1,5})?)|(?:[0+][\s._-]*\d(?:[\s._-]*\d){,2})?(?:[\s._-]*\d){6,16}\b'
+      confidence: 0.5
+      keywords: *shared_keywords_phonenumber
+
+    - name: "Phone Number (US Format)"
+      regex: '(?i)(?<![\d+])\b(?:\+\d{,2})?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}\b'
+      confidence: 0.9
+      keywords: *shared_keywords_phonenumber
+
+    - name: "Phone Number (Common Regex)"
+      regex: '(?<![\d+])\b((?:(?:\+?\d{1,3}[-.\s*]?)?(?:\(?\d{3}\)?[-.\s*]?)?\d{3}[-.\s*]?\d{4}(?![\d-]))|(?:(?<![\d-])(?:(?:\(\+?\d{2}\))|(?:\+?\d{2}))[\s._-]*\d{2}[\s._-]*\d{3}[\s._-]*\d{4}(?![\d-])))\b'
+      confidence: 0.5
+      keywords: *shared_keywords_phonenumber
+
+    - name: "Phone Number (Common Regex with extensions)"
+      regex: '(?<![\d+])\b((?:(?:\+?1[\s._-]*(?:[-.\s]*)?)?(?:\([\s._-]*(?:[2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])[\s._-]*\)|(?:[2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))[\s._-]*(?:[.-]\s*)?)?(?:[2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})[\s._-]*(?:[-.\s]*)?(?:[0-9]{4})(?:[\s._-]*(?:#|x\.?|ext\.?|extension)[\s._-]*(?:\d+)?))\b'
+      confidence: 0.5
+      keywords: *shared_keywords_phonenumber
+
+    - name: "French Phone Number"
+      regex: '\b(0?11)?330?\d{9}\b'
+      confidence: 0.3
+      keywords: *shared_keywords_phonenumber
+
+    - name: "German Phone Number"
+      regex: '\b(0?11)?330?\d{9}\b'
+      confidence: 0.3
+      keywords: *shared_keywords_phonenumber
+
+#usssn_recognizer
+usssn_recognizer:
+  custom_usssn:
+    - name: "US SSN1 (weak)"
+      regex: '\b([0-9]{5})[-.\s]([0-9]{4})\b'
+      confidence: 0.3
+      keywords: *shared_keywords_ssn
+
+    - name: "US SSN2 (weak)"
+      regex: '\b([0-9]{3})[-.\s]([0-9]{6})\b'
+      confidence: 0.3
+      keywords: *shared_keywords_ssn
+
+    - name: "US SSN3 (weak)"
+      regex: '\b(([0-9]{3})[-.\s]([0-9]{2})[-.\s]([0-9]{4}))\b'
+      confidence: 0.4
+      keywords: *shared_keywords_ssn
+
+    - name: "US SSN4 (weak)"
+      regex: '\b[0-9]{9}\b'
+      confidence: 0.2
+      keywords: *shared_keywords_ssn
+
+    - name: "US SSN6 (weak)"
+      regex: '\b[0-9]([\—\- ._]*[0-9]){8}\b'
+      confidence: 0.3
+      keywords: *shared_keywords_ssn
+
+    - name: "US SSN5 (medium)"
+      regex: '\b([0-9]{3})[- .]*([0-9]{2})[- .]*([0-9]{4})\b'
+      confidence: 0.5
+      keywords: *shared_keywords_ssn
+
+    - name: "US SSN7 (high)"
+      regex: '\b(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}\b'
+      confidence: 0.8
+      keywords: *shared_keywords_ssn
+
+    - name: "US SSN8 (OCR)"
+      regex: '(?<!\w)\b[\dlZEASBO]{3} [\dlZEASBO]{2} [\dlZEASBO]{4}|([\dlZEASBO] ?){3}[\—\-_]
+        ?([\dlZEASBO] ?){2}[\—\-_] ?([\dlZEASBO] ?){4}\b'
+      confidence: 0.5
+      keywords: *shared_keywords_ssn
+
+ssn_recognizer:
+  custom_ssn:
+    - name: "France SSN (weak)"
+      regex: '\b\d{13}|\d{13}\s\d{2}\b'
+      confidence: 0.3
+      keywords: *shared_keywords_ssn
+
+    - name: "Spain SSN (weak)"
+      regex: '\b\d{2}\/?\d{8}\/?\d{2}\b'
+      confidence: 0.3
+      keywords: *shared_keywords_ssn
+
+    - name: "German SSN1 (weak)"
+      regex: '(?i:\b[0-9]{2}[0-3][0-9][0-1][0-9]{3}[A-Z][0-9]{3}\b)'
+      confidence: 0.3
+      keywords: *shared_keywords_ssn
+
+    - name: "German SSN2 (high)"
+      regex: '(?i:\b[0-9]{2}[\s.-]?[0-3][0-9][\s.-]?[0-1][0-9][\s.-]?[0-9]{2}[\s.-]?[A-Z][\s.-]?[0-9]{2}[\s.-]?[0-9]\b)'
+      confidence: 0.8
+      keywords: *shared_keywords_ssn
+
+
+
+#url_recognizer
+url_recognizer:
+  custom_url:
+    - name: 'Standard Url'
+      regex: '(?i)(?:https?://)((www\d{0,3}[.])?[a-z0-9.\-]+[.](?:(?:com)|(?:edu)|(?:gov)|(?:int)|(?:mil)|(?:net)|(?:onl)|(?:org)|(?:pro)|(?:red)|(?:tel)|(?:uno)|(?:xxx)|(?:academy)|(?:accountant)|(?:accountants)|(?:actor)|(?:adult)|(?:africa)|(?:agency)|(?:airforce)|(?:apartments)|(?:app)|(?:archi)|(?:army)|(?:art)|(?:asia)|(?:associates)|(?:attorney)|(?:auction)|(?:audio)|(?:auto)|(?:autos)|(?:baby)|(?:band)|(?:bar)|(?:bargains)|(?:beer)|(?:berlin)|(?:best)|(?:bet)|(?:bid)|(?:bike)|(?:bio)|(?:black)|(?:blackfriday)|(?:blog)|(?:blue)|(?:boats)|(?:bond)|(?:boo)|(?:boston)|(?:bot)|(?:boutique)|(?:build)|(?:builders)|(?:business)|(?:buzz)|(?:cab)|(?:cafe)|(?:cam)|(?:camera)|(?:camp)|(?:capital)|(?:car)|(?:cards)|(?:care)|(?:careers)|(?:cars)|(?:casa)|(?:cash)|(?:casino)|(?:catering)|(?:center)|(?:ceo)|(?:cfd)|(?:charity)|(?:chat)|(?:cheap)|(?:christmas)|(?:church)|(?:city)|(?:claims)|(?:cleaning)|(?:click)|(?:clinic)|(?:clothing)|(?:cloud)|(?:club)|(?:codes)|(?:coffee)|(?:college)|(?:com)|(?:community)|(?:company)|(?:computer)|(?:condos)|(?:construction)|(?:consulting)|(?:contact)|(?:contractors)|(?:cooking)|(?:cool)|(?:coupons)|(?:courses)|(?:credit)|(?:creditcard)|(?:cricket)|(?:cruises)|(?:cyou)|(?:dad)|(?:dance)|(?:date)|(?:dating)|(?:day)|(?:degree)|(?:delivery)|(?:democrat)|(?:dental)|(?:dentist)|(?:desi)|(?:design)|(?:dev)|(?:diamonds)|(?:diet)|(?:digital)|(?:direct)|(?:directory)|(?:discount)|(?:doctor)|(?:dog)|(?:domains)|(?:download)|(?:earth)|(?:eco)|(?:education)|(?:email)|(?:energy)|(?:engineer)|(?:engineering)|(?:enterprises)|(?:equipment)|(?:esq)|(?:estate)|(?:events)|(?:exchange)|(?:expert)|(?:exposed)|(?:express)|(?:fail)|(?:faith)|(?:family)|(?:fans)|(?:farm)|(?:fashion)|(?:feedback)|(?:film)|(?:finance)|(?:financial)|(?:fish)|(?:fishing)|(?:fit)|(?:fitness)|(?:flights)|(?:florist)|(?:flowers)|(?:football)|(?:forsale)|(?:foundation)|(?:fun)|(?:fund)|(?:furniture)|(?:futbol)|(?:fyi)|(?:gallery)|(?:game)|(?:games)|(?:garden)|(?:gay)|(?:gdn)|(?:gifts)|(?:gives)|(?:giving)|(?:glass)|(?:global)|(?:gmbh)|(?:gold)|(?:golf)|(?:graphics)|(?:gratis)|(?:green)|(?:gripe)|(?:group)|(?:guide)|(?:guitars)|(?:guru)|(?:hair)|(?:hamburg)|(?:haus)|(?:health)|(?:healthcare)|(?:help)|(?:hiphop)|(?:hockey)|(?:holdings)|(?:holiday)|(?:homes)|(?:horse)|(?:hospital)|(?:host)|(?:hosting)|(?:house)|(?:how)|(?:icu)|(?:info)|(?:ink)|(?:institute)|(?:insure)|(?:international)|(?:investments)|(?:irish)|(?:jewelry)|(?:jetzt)|(?:juegos)|(?:kaufen)|(?:kids)|(?:kitchen)|(?:kiwi)|(?:krd)|(?:kyoto)|(?:land)|(?:lat)|(?:law)|(?:lawyer)|(?:lease)|(?:legal)|(?:lgbt)|(?:life)|(?:lighting)|(?:limited)|(?:limo)|(?:link)|(?:live)|(?:loan)|(?:loans)|(?:lol)|(?:london)|(?:love)|(?:ltd)|(?:ltda)|(?:luxury)|(?:maison)|(?:management)|(?:market)|(?:marketing)|(?:markets)|(?:mba)|(?:media)|(?:melbourne)|(?:meme)|(?:memorial)|(?:men)|(?:miami)|(?:mobi)|(?:moda)|(?:moe)|(?:mom)|(?:money)|(?:monster)|(?:mortgage)|(?:motorcycles)|(?:mov)|(?:movie)|(?:nagoya)|(?:name)|(?:navy)|(?:network)|(?:new)|(?:news)|(?:ngo)|(?:ninja)|(?:now)|(?:nyc)|(?:observer)|(?:okinawa)|(?:one)|(?:ong)|(?:onl)|(?:online)|(?:organic)|(?:osaka)|(?:page)|(?:paris)|(?:partners)|(?:parts)|(?:party)|(?:pet)|(?:phd)|(?:photo)|(?:photography)|(?:photos)|(?:pics)|(?:pictures)|(?:pink)|(?:pizza)|(?:place)|(?:plumbing)|(?:plus)|(?:poker)|(?:porn)|(?:press)|(?:pro)|(?:productions)|(?:prof)|(?:promo)|(?:properties)|(?:property)|(?:protection)|(?:pub)|(?:quest)|(?:racing)|(?:recipes)|(?:red)|(?:rehab)|(?:reise)|(?:reisen)|(?:rent)|(?:rentals)|(?:repair)|(?:report)|(?:republican)|(?:rest)|(?:restaurant)|(?:review)|(?:reviews)|(?:rip)|(?:rocks)|(?:rodeo)|(?:rsvp)|(?:run)|(?:saarland)|(?:sale)|(?:salon)|(?:sarl)|(?:sbs)|(?:school)|(?:schule)|(?:science)|(?:services)|(?:sex)|(?:sexy)|(?:sh)|(?:shoes)|(?:shop)|(?:shopping)|(?:show)|(?:singles)|(?:site)|(?:skin)|(?:soccer)|(?:social)|(?:software)|(?:solar)|(?:solutions)|(?:soy)|(?:space)|(?:spiegel)|(?:study)|(?:style)|(?:sucks)|(?:supply)|(?:support)|(?:surf)|(?:surgery)|(?:systems)|(?:tax)|(?:taxi)|(?:team)|(?:tech)|(?:technology)|(?:tel)|(?:theater)|(?:tips)|(?:tires)|(?:today)|(?:tools)|(?:top)|(?:tours)|(?:town)|(?:toys)|(?:trade)|(?:training)|(?:tube)|(?:uk)|(?:university)|(?:uno)|(?:vacations)|(?:ventures)|(?:vet)|(?:video)|(?:villas)|(?:vin)|(?:vip)|(?:vision)|(?:vlaanderen)|(?:vodka)|(?:vote)|(?:voting)|(?:voyage)|(?:wales)|(?:wang)|(?:watch)|(?:webcam)|(?:website)|(?:wedding)|(?:wiki)|(?:wine)|(?:work)|(?:works)|(?:world)|(?:wtf)|(?:xyz)|(?:yoga)|(?:yokohama)|(?:you)|(?:zone)|(?:ac)|(?:ad)|(?:ae)|(?:af)|(?:ag)|(?:ai)|(?:al)|(?:am)|(?:an)|(?:ao)|(?:aq)|(?:ar)|(?:as)|(?:at)|(?:au)|(?:aw)|(?:ax)|(?:az)|(?:ba)|(?:bb)|(?:bd)|(?:be)|(?:bf)|(?:bg)|(?:bh)|(?:bi)|(?:bj)|(?:bm)|(?:bn)|(?:bo)|(?:br)|(?:bs)|(?:bt)|(?:bv)|(?:bw)|(?:by)|(?:bz)|(?:ca)|(?:cc)|(?:cd)|(?:cf)|(?:cg)|(?:ch)|(?:ci)|(?:ck)|(?:cl)|(?:cm)|(?:cn)|(?:co)|(?:cr)|(?:cu)|(?:cv)|(?:cw)|(?:cx)|(?:cy)|(?:cz)|(?:de)|(?:dj)|(?:dk)|(?:dm)|(?:do)|(?:dz)|(?:ec)|(?:ee)|(?:eg)|(?:er)|(?:es)|(?:et)|(?:eu)|(?:fi)|(?:fj)|(?:fk)|(?:fm)|(?:fo)|(?:fr)|(?:ga)|(?:gb)|(?:gd)|(?:ge)|(?:gf)|(?:gg)|(?:gh)|(?:gi)|(?:gl)|(?:gm)|(?:gn)|(?:gp)|(?:gq)|(?:gr)|(?:gs)|(?:gt)|(?:gu)|(?:gw)|(?:gy)|(?:hk)|(?:hm)|(?:hn)|(?:hr)|(?:ht)|(?:hu)|(?:id)|(?:ie)|(?:il)|(?:im)|(?:in)|(?:io)|(?:iq)|(?:ir)|(?:is)|(?:it)|(?:je)|(?:jm)|(?:jo)|(?:jp)|(?:ke)|(?:kg)|(?:kh)|(?:ki)|(?:km)|(?:kn)|(?:kp)|(?:kr)|(?:kw)|(?:ky)|(?:kz)|(?:la)|(?:lb)|(?:lc)|(?:li)|(?:lk)|(?:lr)|(?:ls)|(?:lt)|(?:lu)|(?:lv)|(?:ly)|(?:ma)|(?:mc)|(?:md)|(?:me)|(?:mg)|(?:mh)|(?:mk)|(?:ml)|(?:mm)|(?:mn)|(?:mo)|(?:mp)|(?:mq)|(?:mr)|(?:ms)|(?:mt)|(?:mu)|(?:mv)|(?:mw)|(?:mx)|(?:my)|(?:mz)|(?:na)|(?:nc)|(?:ne)|(?:nf)|(?:ng)|(?:ni)|(?:nl)|(?:no)|(?:np)|(?:nr)|(?:nu)|(?:nz)|(?:om)|(?:pa)|(?:pe)|(?:pf)|(?:pg)|(?:ph)|(?:pk)|(?:pl)|(?:pm)|(?:pn)|(?:pr)|(?:ps)|(?:pt)|(?:pw)|(?:py)|(?:qa)|(?:re)|(?:ro)|(?:rs)|(?:ru)|(?:rw)|(?:sa)|(?:sb)|(?:sc)|(?:sd)|(?:se)|(?:sg)|(?:sh)|(?:si)|(?:sj)|(?:sk)|(?:sl)|(?:sm)|(?:sn)|(?:so)|(?:sr)|(?:st)|(?:su)|(?:sv)|(?:sx)|(?:sy)|(?:sz)|(?:tc)|(?:td)|(?:tf)|(?:tg)|(?:th)|(?:tj)|(?:tk)|(?:tl)|(?:tm)|(?:tn)|(?:to)|(?:tp)|(?:tr)|(?:tt)|(?:tv)|(?:tw)|(?:tz)|(?:ua)|(?:ug)|(?:uk)|(?:us)|(?:uy)|(?:uz)|(?:va)|(?:vc)|(?:ve)|(?:vg)|(?:vi)|(?:vn)|(?:vu)|(?:wf)|(?:ws)|(?:ye)|(?:yt)|(?:za)|(?:zm)|(?:zw))(?:/[^\s()<>]+|/)?)'
+      confidence: 0.9
+      keywords: *shared_keywords_url
+
+    - name: 'Non schema URL'
+      regex: '(?i)((www\d{0,3}[.])?[a-z0-9.\-]+[.](?:(?:com)|(?:edu)|(?:gov)|(?:int)|(?:mil)|(?:net)|(?:onl)|(?:org)|(?:pro)|(?:red)|(?:tel)|(?:uno)|(?:xxx)|(?:academy)|(?:accountant)|(?:accountants)|(?:actor)|(?:adult)|(?:africa)|(?:agency)|(?:airforce)|(?:apartments)|(?:app)|(?:archi)|(?:army)|(?:art)|(?:asia)|(?:associates)|(?:attorney)|(?:auction)|(?:audio)|(?:auto)|(?:autos)|(?:baby)|(?:band)|(?:bar)|(?:bargains)|(?:beer)|(?:berlin)|(?:best)|(?:bet)|(?:bid)|(?:bike)|(?:bio)|(?:black)|(?:blackfriday)|(?:blog)|(?:blue)|(?:boats)|(?:bond)|(?:boo)|(?:boston)|(?:bot)|(?:boutique)|(?:build)|(?:builders)|(?:business)|(?:buzz)|(?:cab)|(?:cafe)|(?:cam)|(?:camera)|(?:camp)|(?:capital)|(?:car)|(?:cards)|(?:care)|(?:careers)|(?:cars)|(?:casa)|(?:cash)|(?:casino)|(?:catering)|(?:center)|(?:ceo)|(?:cfd)|(?:charity)|(?:chat)|(?:cheap)|(?:christmas)|(?:church)|(?:city)|(?:claims)|(?:cleaning)|(?:click)|(?:clinic)|(?:clothing)|(?:cloud)|(?:club)|(?:codes)|(?:coffee)|(?:college)|(?:com)|(?:community)|(?:company)|(?:computer)|(?:condos)|(?:construction)|(?:consulting)|(?:contact)|(?:contractors)|(?:cooking)|(?:cool)|(?:coupons)|(?:courses)|(?:credit)|(?:creditcard)|(?:cricket)|(?:cruises)|(?:cyou)|(?:dad)|(?:dance)|(?:date)|(?:dating)|(?:day)|(?:degree)|(?:delivery)|(?:democrat)|(?:dental)|(?:dentist)|(?:desi)|(?:design)|(?:dev)|(?:diamonds)|(?:diet)|(?:digital)|(?:direct)|(?:directory)|(?:discount)|(?:doctor)|(?:dog)|(?:domains)|(?:download)|(?:earth)|(?:eco)|(?:education)|(?:email)|(?:energy)|(?:engineer)|(?:engineering)|(?:enterprises)|(?:equipment)|(?:esq)|(?:estate)|(?:events)|(?:exchange)|(?:expert)|(?:exposed)|(?:express)|(?:fail)|(?:faith)|(?:family)|(?:fans)|(?:farm)|(?:fashion)|(?:feedback)|(?:film)|(?:finance)|(?:financial)|(?:fish)|(?:fishing)|(?:fit)|(?:fitness)|(?:flights)|(?:florist)|(?:flowers)|(?:football)|(?:forsale)|(?:foundation)|(?:fun)|(?:fund)|(?:furniture)|(?:futbol)|(?:fyi)|(?:gallery)|(?:game)|(?:games)|(?:garden)|(?:gay)|(?:gdn)|(?:gifts)|(?:gives)|(?:giving)|(?:glass)|(?:global)|(?:gmbh)|(?:gold)|(?:golf)|(?:graphics)|(?:gratis)|(?:green)|(?:gripe)|(?:group)|(?:guide)|(?:guitars)|(?:guru)|(?:hair)|(?:hamburg)|(?:haus)|(?:health)|(?:healthcare)|(?:help)|(?:hiphop)|(?:hockey)|(?:holdings)|(?:holiday)|(?:homes)|(?:horse)|(?:hospital)|(?:host)|(?:hosting)|(?:house)|(?:how)|(?:icu)|(?:info)|(?:ink)|(?:institute)|(?:insure)|(?:international)|(?:investments)|(?:irish)|(?:jewelry)|(?:jetzt)|(?:juegos)|(?:kaufen)|(?:kids)|(?:kitchen)|(?:kiwi)|(?:krd)|(?:kyoto)|(?:land)|(?:lat)|(?:law)|(?:lawyer)|(?:lease)|(?:legal)|(?:lgbt)|(?:life)|(?:lighting)|(?:limited)|(?:limo)|(?:link)|(?:live)|(?:loan)|(?:loans)|(?:lol)|(?:london)|(?:love)|(?:ltd)|(?:ltda)|(?:luxury)|(?:maison)|(?:management)|(?:market)|(?:marketing)|(?:markets)|(?:mba)|(?:media)|(?:melbourne)|(?:meme)|(?:memorial)|(?:men)|(?:miami)|(?:mobi)|(?:moda)|(?:moe)|(?:mom)|(?:money)|(?:monster)|(?:mortgage)|(?:motorcycles)|(?:mov)|(?:movie)|(?:nagoya)|(?:name)|(?:navy)|(?:network)|(?:new)|(?:news)|(?:ngo)|(?:ninja)|(?:now)|(?:nyc)|(?:observer)|(?:okinawa)|(?:one)|(?:ong)|(?:onl)|(?:online)|(?:organic)|(?:osaka)|(?:page)|(?:paris)|(?:partners)|(?:parts)|(?:party)|(?:pet)|(?:phd)|(?:photo)|(?:photography)|(?:photos)|(?:pics)|(?:pictures)|(?:pink)|(?:pizza)|(?:place)|(?:plumbing)|(?:plus)|(?:poker)|(?:porn)|(?:press)|(?:pro)|(?:productions)|(?:prof)|(?:promo)|(?:properties)|(?:property)|(?:protection)|(?:pub)|(?:quest)|(?:racing)|(?:recipes)|(?:red)|(?:rehab)|(?:reise)|(?:reisen)|(?:rent)|(?:rentals)|(?:repair)|(?:report)|(?:republican)|(?:rest)|(?:restaurant)|(?:review)|(?:reviews)|(?:rip)|(?:rocks)|(?:rodeo)|(?:rsvp)|(?:run)|(?:saarland)|(?:sale)|(?:salon)|(?:sarl)|(?:sbs)|(?:school)|(?:schule)|(?:science)|(?:services)|(?:sex)|(?:sexy)|(?:sh)|(?:shoes)|(?:shop)|(?:shopping)|(?:show)|(?:singles)|(?:site)|(?:skin)|(?:soccer)|(?:social)|(?:software)|(?:solar)|(?:solutions)|(?:soy)|(?:space)|(?:spiegel)|(?:study)|(?:style)|(?:sucks)|(?:supply)|(?:support)|(?:surf)|(?:surgery)|(?:systems)|(?:tax)|(?:taxi)|(?:team)|(?:tech)|(?:technology)|(?:tel)|(?:theater)|(?:tips)|(?:tires)|(?:today)|(?:tools)|(?:top)|(?:tours)|(?:town)|(?:toys)|(?:trade)|(?:training)|(?:tube)|(?:uk)|(?:university)|(?:uno)|(?:vacations)|(?:ventures)|(?:vet)|(?:video)|(?:villas)|(?:vin)|(?:vip)|(?:vision)|(?:vlaanderen)|(?:vodka)|(?:vote)|(?:voting)|(?:voyage)|(?:wales)|(?:wang)|(?:watch)|(?:webcam)|(?:website)|(?:wedding)|(?:wiki)|(?:wine)|(?:work)|(?:works)|(?:world)|(?:wtf)|(?:xyz)|(?:yoga)|(?:yokohama)|(?:you)|(?:zone)|(?:ac)|(?:ad)|(?:ae)|(?:af)|(?:ag)|(?:ai)|(?:al)|(?:am)|(?:an)|(?:ao)|(?:aq)|(?:ar)|(?:as)|(?:at)|(?:au)|(?:aw)|(?:ax)|(?:az)|(?:ba)|(?:bb)|(?:bd)|(?:be)|(?:bf)|(?:bg)|(?:bh)|(?:bi)|(?:bj)|(?:bm)|(?:bn)|(?:bo)|(?:br)|(?:bs)|(?:bt)|(?:bv)|(?:bw)|(?:by)|(?:bz)|(?:ca)|(?:cc)|(?:cd)|(?:cf)|(?:cg)|(?:ch)|(?:ci)|(?:ck)|(?:cl)|(?:cm)|(?:cn)|(?:co)|(?:cr)|(?:cu)|(?:cv)|(?:cw)|(?:cx)|(?:cy)|(?:cz)|(?:de)|(?:dj)|(?:dk)|(?:dm)|(?:do)|(?:dz)|(?:ec)|(?:ee)|(?:eg)|(?:er)|(?:es)|(?:et)|(?:eu)|(?:fi)|(?:fj)|(?:fk)|(?:fm)|(?:fo)|(?:fr)|(?:ga)|(?:gb)|(?:gd)|(?:ge)|(?:gf)|(?:gg)|(?:gh)|(?:gi)|(?:gl)|(?:gm)|(?:gn)|(?:gp)|(?:gq)|(?:gr)|(?:gs)|(?:gt)|(?:gu)|(?:gw)|(?:gy)|(?:hk)|(?:hm)|(?:hn)|(?:hr)|(?:ht)|(?:hu)|(?:id)|(?:ie)|(?:il)|(?:im)|(?:in)|(?:io)|(?:iq)|(?:ir)|(?:is)|(?:it)|(?:je)|(?:jm)|(?:jo)|(?:jp)|(?:ke)|(?:kg)|(?:kh)|(?:ki)|(?:km)|(?:kn)|(?:kp)|(?:kr)|(?:kw)|(?:ky)|(?:kz)|(?:la)|(?:lb)|(?:lc)|(?:li)|(?:lk)|(?:lr)|(?:ls)|(?:lt)|(?:lu)|(?:lv)|(?:ly)|(?:ma)|(?:mc)|(?:md)|(?:me)|(?:mg)|(?:mh)|(?:mk)|(?:ml)|(?:mm)|(?:mn)|(?:mo)|(?:mp)|(?:mq)|(?:mr)|(?:ms)|(?:mt)|(?:mu)|(?:mv)|(?:mw)|(?:mx)|(?:my)|(?:mz)|(?:na)|(?:nc)|(?:ne)|(?:nf)|(?:ng)|(?:ni)|(?:nl)|(?:no)|(?:np)|(?:nr)|(?:nu)|(?:nz)|(?:om)|(?:pa)|(?:pe)|(?:pf)|(?:pg)|(?:ph)|(?:pk)|(?:pl)|(?:pm)|(?:pn)|(?:pr)|(?:ps)|(?:pt)|(?:pw)|(?:py)|(?:qa)|(?:re)|(?:ro)|(?:rs)|(?:ru)|(?:rw)|(?:sa)|(?:sb)|(?:sc)|(?:sd)|(?:se)|(?:sg)|(?:sh)|(?:si)|(?:sj)|(?:sk)|(?:sl)|(?:sm)|(?:sn)|(?:so)|(?:sr)|(?:st)|(?:su)|(?:sv)|(?:sx)|(?:sy)|(?:sz)|(?:tc)|(?:td)|(?:tf)|(?:tg)|(?:th)|(?:tj)|(?:tk)|(?:tl)|(?:tm)|(?:tn)|(?:to)|(?:tp)|(?:tr)|(?:tt)|(?:tv)|(?:tw)|(?:tz)|(?:ua)|(?:ug)|(?:uk)|(?:us)|(?:uy)|(?:uz)|(?:va)|(?:vc)|(?:ve)|(?:vg)|(?:vi)|(?:vn)|(?:vu)|(?:wf)|(?:ws)|(?:ye)|(?:yt)|(?:za)|(?:zm)|(?:zw))(?:/[^\s()<>]+|/)?)'
+      confidence: 0.7
+      keywords: *shared_keywords_url
+
+# titles
+title:
+  titles_list:
+    - 'Ms'
+    - 'Sr'
+    - 'Lt'
+    - 'Mr'
+    - 'Dr'
+    - 'Mx'
+    - 'Rat'
+    - 'Rev'
+    - 'Str'
+    - 'Grf'
+    - 'Hrz'
+    - 'Sen'
+    - 'Dr.'
+    - 'Mrs'
+    - 'Gen'
+    - 'Llc'
+    - 'Erb'
+    - 'Pvt'
+    - 'Lic'
+    - 'Mme'
+    - 'Frl'
+    - 'Sir'
+    - 'Sel'
+    - 'Col'
+    - 'Pbr'
+    - 'Ald'
+    - 'Bgm'
+    - 'Abt'
+    - 'Ehz'
+    - 'Sgt'
+    - 'Drs'
+    - 'Prz'
+    - 'Kön'
+    - 'Cpl'
+    - 'HMA'
+    - 'Prof'
+    - 'Herz'
+    - 'Säug'
+    - 'Erbe'
+    - 'Ausw'
+    - 'Epus'
+    - 'Lady'
+    - 'Capt'
+    - 'Graf'
+    - 'Mstr'
+    - 'Mutt'
+    - 'Earl'
+    - 'Chef'
+    - 'Schw'
+    - 'Lord'
+    - 'Herr'
+    - 'Frau'
+    - 'Msgr'
+    - 'Duke'
+    - 'Miss'
+    - 'Heir'
+    - 'Cllr'
+    - 'Dame'
+    - 'Rabbi'
+    - 'Friar'
+    - 'Ratte'
+    - 'Chief'
+    - 'Mayor'
+    - 'Baron'
+    - 'Canon'
+    - 'Voter'
+    - 'Vicar'
+    - 'Mönch'
+    - 'Vater'
+    - 'Major'
+    - 'Count'
+    - 'Meist'
+    - 'Queen'
+    - 'Madam'
+    - 'Prinz'
+    - 'Judge'
+    - 'Herzog'
+    - 'Doctor'
+    - 'Lt Col'
+    - 'Deputy'
+    - 'Wähler'
+    - 'Privat'
+    - 'Sister'
+    - 'Senior'
+    - 'Bruder'
+    - 'Prince'
+    - 'Lt Cpl'
+    - 'Abbess'
+    - 'Prälat'
+    - 'Rektor'
+    - 'Mister'
+    - 'Mutter'
+    - 'Oberst'
+    - 'Gräfin'
+    - 'Murmur'
+    - 'Konsul'
+    - 'Rector'
+    - 'Madame'
+    - 'Rev Dr'
+    - 'Father'
+    - 'Pastor'
+    - 'Mother'
+    - 'Junior'
+    - 'Consul'
+    - 'Infant'
+    - 'Master'
+    - 'Justiz'
+    - 'Brother'
+    - 'Duchess'
+    - 'Sheriff'
+    - 'Prelate'
+    - 'Richter'
+    - 'Justice'
+    - 'Königin'
+    - 'Marshal'
+    - 'Prof Dr'
+    - 'The Hon'
+    - 'Pfarrer'
+    - 'Baronin'
+    - 'Marquis'
+    - 'Colonel'
+    - 'Meister'
+    - 'Mr & Ms'
+    - 'Manager'
+    - 'Kapitän'
+    - 'General'
+    - 'Esquire'
+    - 'Mr & Dr'
+    - 'Admiral'
+    - 'Senator'
+    - 'Murmeln'
+    - 'Private'
+    - 'Viscount'
+    - 'Baroness'
+    - 'Cardinal'
+    - 'Dr & Mrs'
+    - 'Archduke'
+    - 'Mayoress'
+    - 'Sekretär'
+    - 'Mr & Mrs'
+    - 'Ratsherr'
+    - 'Sergeant'
+    - 'Äbtissin'
+    - 'Air Comm'
+    - 'Governor'
+    - 'Countess'
+    - 'Alderman'
+    - 'Brig Gen'
+    - 'Fräulein'
+    - 'Stadtrat'
+    - 'Herzogin'
+    - 'Säugling'
+    - 'Doktorin'
+    - 'Reverend'
+    - 'Minister'
+    - 'Princess'
+    - 'Kardinal'
+    - 'Präsident'
+    - 'Herr & Dr'
+    - 'Erzherzog'
+    - 'Gefreiter'
+    - 'Rev Canon'
+    - 'Brigadier'
+    - 'Monsignor'
+    - 'Assistant'
+    - 'President'
+    - 'Rev & Mrs'
+    - 'Marschall'
+    - 'Häuptling'
+    - 'Kanoniker'
+    - 'Assistent'
+    - 'Secretary'
+    - 'Her Grace'
+    - 'Schwester'
+    - 'Commander'
+    - 'Professor'
+    - 'Prof & Dr'
+    - 'Prof Dame'
+    - 'Selectman'
+    - 'Principal'
+    - 'Procurator'
+    - 'Prof & Mrs'
+    - 'Sir & Lady'
+    - 'Rev & Frau'
+    - 'Alderwoman'
+    - 'Brig & Mrs'
+    - 'The Rt Hon'
+    - 'Gräfin von'
+    - 'Stadträtin'
+    - 'Monsignore'
+    - 'Prokurator'
+    - 'Councillor'
+    - 'Kommandant'
+    - 'Dr. & Frau'
+    - 'Gouverneur'
+    - 'Prof & Rev'
+    - 'Prinzessin'
+    - 'The Hon Dr'
+    - 'Der Rt Hon'
+    - 'Ambassador'
+    - 'The Hon Sir'
+    - 'Prof & Frau'
+    - 'Marchioness'
+    - 'Herr & Frau'
+    - 'Ihre Gnaden'
+    - 'The Hon Mrs'
+    - 'Lord & Lady'
+    - 'Erzherzogin'
+    - 'The Earl of'
+    - 'Botschafter'
+    - 'Sqr. Leader'
+    - 'Countess of'
+    - 'Archduchess'
+    - 'Ehrwürdiger'
+    - 'Rear Admiral'
+    - 'Councilwoman'
+    - 'Der Graf von'
+    - 'Generalmajor'
+    - 'The Hon Lord'
+    - 'The Hon Lady'
+    - 'Konteradmiral'
+    - 'Generalkonsul'
+    - 'Der Rt Hon Dr'
+    - 'Bürgermeister'
+    - 'Major General'
+    - 'The Rt Hon Dr'
+    - 'Stellvertreter'
+    - 'Luftkommandant'
+    - 'The Honourable'
+    - 'The Rt Hon Sir'
+    - 'Der Rt Hon Sir'
+    - 'Brigadegeneral'
+    - 'His Excellency'
+    - 'Consul General'
+    - 'Der Ehrenwerte'
+    - 'City Councilor'
+    - 'Der Rt Hon Lord'
+    - 'The Rt Hon Lord'
+    - 'The Rt Hon Visc'
+    - 'Seine Exzellenz'
+    - 'Bürgermeisterin'
+    - 'Der Rt Hon Visc'
+    - 'Commander & Mrs'
+    - 'Kommandant & Frau'
+    - 'Der Ehrenwerte Dr'
+    - 'Der Ehrenwerte Sir'
+    - 'Die Ehrenwerte Mrs'
+    - 'Die Ehrenwerte Lady'
+    - 'Der Ehrenwerte Lord'
+    - 'Örnagy' # Major (military)
+    - 'Főtisztelendő' # Very Reverend (ecclesiastical)
+    - 'Nagyméltóságú' # His/Her Excellency
+    - 'Tisztelt' # Esteemed, Honourable (general polite address)
+    - 'Ifj.' # Jr. (junior)
+    - 'Id.' # Sr. (senior)
+    - 'Gróf' # Count
+    - 'Grófnő' # Countess
+    - 'Báró' # Baron
+    - 'Bárónő' # Baroness
+    - 'Herceg' # Duke
+    - 'Hercegnő' # Duchess
+    - 'Prof.' # Prof. (professor)
+    - 'Akad.' # Academician (member of Hungarian Academy of Sciences)
+    - 'Igazgató' # Director
+    - 'Elnök' # President, Chairman
+    - 'Ügyvezető' # Managing Director, CEO
+    - 'Titkár' # Secretary
+    - 'Mérnök' # Engineer
+    - 'Orvos' # Doctor (medical)
+    - 'Tanár' # Teacher, Professor
+    - 'Címzetes' # Honorary (e.g., Címzetes egyetemi tanár - Honorary University Professor)
+    - 'Király' # King
+    - 'Királynő' # Queen
+    - 'Hercegprímás' # Prince Primate (ecclesiastical title)
+    - 'Főbíró' # Chief Justice
+    - 'Főpolgármester' # Lord Mayor (Budapest specific)
+    - 'Polgármester' # Mayor
+    - 'Képviselő' # Representative, MP
+    - 'Nagykövet' # Ambassador
+    - 'Főtanácsos' # Chief Councillor
+    - 'Alelnök' # Vice-President
+    - 'Főigazgató' # Director-General
+    - 'Kancellár' # Chancellor
+    - 'Rektor' # Rector (university head)
+    - 'Dékán' # Dean (university faculty head)
+    - 'Cserkészvezető' # Scout Leader
+    - 'Törzsfőnök' # Chief (tribal/traditional)
+    - 'Séf' # Chef
+    - 'Mester' # Master (e.g., craft, martial arts)
+    - 'Főnök' # Boss, Chief (informal/colloquial)
+    - 'Asszony' # Mrs. (formal, usually with surname)
+    - 'Kisasszony' # Miss (formal, for unmarried women)
+    - 'Úr' # Mr. (formal, usually with surname)
+    - 'Főorvos' # Chief Physician
+    - 'Főügyész' # Chief Prosecutor
+    - 'Százados' # Captain (military)
+    - 'Ezredes' # Colonel (military)
+    - 'Tábornok' # General (military)
+    - 'Admirális' # Admiral (military)
+    - 'Tiszteletes' # Reverend (ecclesiastical)
+    - 'Édesanyám' # My Mother (affectionate, respectful)
+    - 'Édesapám' # My Father (affectionate, respectful)
+    - 'Nagymama' # Grandmother
+    - 'Nagypapa' # Grandfather
+    - 'Bíró' # Judge
+    - 'Jegyző' # Notary, Clerk
+    - 'Jegyzőnő' # Female Notary, Clerk
+    - 'Rendőr' # Police Officer
+    - 'Tűzoltó' # Firefighter
+    - 'Katona' # Soldier
+    - 'Művész' # Artist
+    - 'Sportoló' # Athlete
+    - 'Edző' # Coach
+    - 'Igazgatónő' # Female Director
+    - 'Elnöknő' # Female President/Chairwoman
+    - 'Ügyvezetőnő' # Female Managing Director/CEO
+    - 'Titkárnő' # Female Secretary
+    - 'Mérnöknő' # Female Engineer
+    - 'Orvosnő' # Female Doctor (medical)
+    - 'Tanárnő' # Female Teacher/Professor
+    - 'Királynő' # Queen
+    - 'Hercegnő' # Princess
+    - 'Díszdoktor' # Honorary Doctor
+    - 'Díszpolgár' # Honorary Citizen
+    - 'Öregdiák' # Alumnus/Alumna
+    - 'Diák' # Student
+    - 'Hallgató' # University Student
+    - 'Kolléga' # Colleague (male)
+    - 'Kolléganő' # Colleague (female)
+    - 'Férj' # Husband
+    - 'Feleség' # Wife
+    - 'Gyerek' # Child
+    - 'Fiú' # Son, Boy
+    - 'Lány' # Daughter, Girl
+    - 'Testvér' # Sibling
+    - 'Bátyám' # My Older Brother
+    - 'Öcsém' # My Younger Brother
+    - 'Nővérem' # My Older Sister
+    - 'Húgom' # My Younger Sister
+    - 'Keresztapa' # Godfather
+    - 'Keresztanya' # Godmother
+    - 'Keresztfiú' # Godson
+    - 'Keresztlány' # Goddaughter
+    - 'Pan'                # Mr.
+    - 'Pani'               # Mrs./Ms.
+    - 'Państwo'            # Mr. & Mrs. / formal plural
+    - 'Doktor'             # Doctor (Dr.)
+    - 'Doktorka'           # Female Doctor
+    - 'Profesor'           # Professor
+    - 'Pani Profesor'      # Female Professor (formal)
+    - 'Prof.'              # Prof. (abbreviation)
+    - 'Inżynier'           # Engineer
+    - 'Mgr'                # MA / MSc (Magister)
+    - 'Lic.'               # Bachelor / Licencjat
+    - 'Dr hab.'            # Habilitated Doctor
+    - 'Ks.'                # Priest (abbreviation of "Ksiądz")
+    - 'Ksiądz'             # Priest
+    - 'Proboszcz'          # Parish priest
+    - 'Biskup'             # Bishop
+    - 'Ojciec'             # Father (religious)
+    - 'Siostra'            # Sister (nun or nurse)
+    - 'Brat'               # Brother (religious or familial)
+    - 'Prezydent'          # President (state or organization)
+    - 'Wójt'               # Village mayor
+    - 'Burmistrz'          # Town mayor
+    - 'Starosta'           # District head
+    - 'Marszałek'          # Marshal (e.g., parliament or region)
+    - 'Radny'              # Council member
+    - 'Radna'              # Female council member
+    - 'Komendant'          # Commander (police/military)
+    - 'Pułkownik'          # Colonel
+    - 'Kapitan'            # Captain
+    - 'Major'              # Major
+    - 'Generał'            # General
+    - 'Szeregowy'          # Private (military)
+    - 'Porucznik'          # Lieutenant
+    - 'Podporucznik'       # Second Lieutenant
+    - 'Starszy sierżant'   # Staff Sergeant
+    - 'Inspektor'          # Inspector (police)
+    - 'Prezes'             # Chairman/President of a company
+    - 'Dyrektor'           # Director
+    - 'Kierownik'          # Manager
+    - 'Sekretarz'          # Secretary
+    - 'Rzecznik'           # Spokesperson
+    - 'Sędzia'             # Judge
+    - 'Prokurator'         # Prosecutor
+    - 'Adwokat'            # Lawyer
+    - 'Notariusz'          # Notary
+    - 'Kanclerz'           # Chancellor
+    - 'Rektor'             # Rector (university)
+    - 'Dziekan'            # Dean
+    - 'Uczeń'              # Student (primary/secondary)
+    - 'Student'            # University student
+    - 'Absolwent'          # Graduate (male)
+    - 'Absolwentka'        # Graduate (female)
+    - 'Zastępca'           # Deputy
+    - 'Mecenas'            # Lawyer (honorific)
+
+
+  title_patterns:
+
+    - name: 'title'
+      regex: '(?i)(?:\b|(?<=\W))(LIST_TITLE)(?:(?=\W)|\b)'
+      confidence: 0.5
+
+    - name: 'title'
+      regex: '(?:^|(?<=\W))(MA|Dipl\.\-Ing\.|M\.E\.S\.|DI|Dr\.\ mont\.|Mag\.\ med\.\
+        vet\.|LLM|Mag\.\ phil\.|Dr\.\ med\.\ dent\.|Mag\.\ iur\.|M\.A\.I\.S\.|M\.B\.L\.|MIB|Mag\.\
+        rer\.\ nat\.|MSc|B\.Eng\.|B\.Sc\.|M\.Sc\.|LL\.M\.|PhD|Dr\.\ scient\.\ med\.|Dr\.\
+        nat\.\ techn\.|BSc|MAS|BEng|Dr\.\ rer\.\ soc\.\ oec\.|BA|M\.A\.|Dr\.\ theol\.|Dr\.\
+        phil\.|MBA|Dr\.\ rer\.\ nat\.|Dr\.\ iur\.|MP|B\.A\.|Dr\.|Ing\.|MMag\.|MMag\.\(FH\)\.|Mag\.|\
+        mgr|inż\.|mgr\ inż\.|dr|dr\ hab\.|prof\.|lek\.|prof\. dr\ hab\.|dr\ n\. med\.|dr\ n\.\
+        hum\.|dr\ n\. społ\.|dr\ n\. prawn\.)(?:(?=\W)|$)'
+      confidence: 0.5
+
+
+
+  title_context:
+    -
+#zip patterns
+zip:
+  zip_pattern:
+    - name: 'zip code (weakest)'
+      regex: '\b\d{3,5}(?:-\d{3})?\b'
+      confidence: 0.01
+      keyword: *shared_keywords_zip_context
+
+    - name: 'zip code (weak)'
+      regex: '(?=\S*\d)(?:(?:zip(?:code).{0,10})|(?:[A-Z]{2}\s))(\d{3,7}(?:-\d{3})?)'
+      confidence: 0.2
+      keyword: *shared_keywords_zip_context
+
+    - name: 'zip code (all)'
+      regex: '(?=\S*\d)\b(AD[1-7]0\d|39\d{2}|TDCU 1ZZ|JE\d[\dA-Z]? ?\d[ABD-HJLN-UW-Z]{2}|\d{6}|[A-Z]{3}
+        ?\d{2,4}|987\d{2}|GY\d[\dA-Z]? ?\d[ABD-HJLN-UW-Z]{2}|00120|4789\d|986\d{2}|6798|FIQQ
+        1ZZ|BB\d{5}|948[5-9]|949[0-8]|6799|\d{7}|(00[679]\d{2})(?:[ \-](\d{4}))?|\d{5}(?:\d{2})?|\d{5}-?\d{5}|9[78][01]\d{2}|\d{2}-\d{3}|((?:[A-HJ-NP-Z])?\d{4})([A-Z]{3})?|2899|(\d{5})(?:[
+        \-](\d{4}))?|GIR ?0AA|(?:(?:AB|AL|B|BA|BB|BD|BF|BH|BL|BN|BR|BS|BT|BX|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA|PE|PH|PL|PO|PR|RG|RH|RM|S|SA|SE|SG|SK|SL|SM|SN|SO|SP|SR|SS|ST|SW|SY|TA|TD|TF|TN|TQ|TR|TS|TW|UB|W|WA|WC|WD|WF|WN|WR|WS|WV|YO|ZE)(?:\d[\dA-Z]?
+        ?\d[ABD-HJLN-UW-Z]{2}))|BFPO ?\d{1,4}|[A-Z]{2} ?\d{5}|(96799)(?:[ \-](\d{4}))?|\d{4,5}|(?:\d{4})(?:
+        ?(?:\d{4}))?|(969[67]\d)(?:[ \-](\d{4}))?|(969(?:[12]\d|3[12]))(?:[ \-](\d{4}))?|(?:LIMA
+        \d{1,2}|CALLAO 0?\d)|[0-2]\d{4}|976\d{2}|22\d{3}|(?:ASCN|STHL) 1ZZ|9[78]3\d{2}|[HLMS]\d{3}|\d{5,6}|(9695[012])(?:[
+        \-](\d{4}))?|LV-\d{4}|TKCA 1ZZ|SIQQ 1ZZ|(?:PC )?\d{3}|\d{5}\d?|(?:37)?\d{4}|CP
+        [1-3][1-7][0-2]\d|(?:^|\b)(?:1[0-2]|[1-9])\d{2}(?:$|\b)|\d{3}(?:\d{2,3})?|[1-7]\d{4}|[A-Z]{2}
+        ?\d{4}|\d{3}-?\d{4}|(?:AI-)?2640|\d{5}|96898|988\d{2}|KY\d-\d{4}|(008(?:(?:[0-4]\d)|(?:5[01])))(?:[
+        \-](\d{4}))?|\d{4,5}|\d{3}-\d{4}|\d{3}|\d{5}-?\d{3}|\d{2} ?\d{3}|8\d{4}|[A-Z]{2}
+        ?[A-Z0-9]{2}|VG\d{4}|[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJ-NPRSTV-Z] ?\d[ABCEGHJ-NPRSTV-Z]\d|9[78]5\d{2}|PCRN
+        1ZZ|GX11 1AA|9[78]2\d{2}|(969(?:39|40))(?:[ \-](\d{4}))?|9[78]4\d{2}|ASCN
+        1ZZ|VC\d{4}|[\dA-Z]{3} ?[\dA-Z]{4}|BBND 1ZZ|\d{4}|\d{3}(?:\d{2}|[A-Z]{2}\d{3})|(9694[1-4])(?:[
+        \-](\d{4}))?|IM\d[\dA-Z]? ?\d[ABD-HJLN-UW-Z]{2}|980\d{2}|\d{3} ?\d{2}|\d{4}-\d{3}|[1-9]\d{3}
+        ?(?:[A-RT-Z][A-Z]|S[BCE-RT-Z]))\b'
+      confidence: 0.5
+      keyword: *shared_keywords_zip_context
+
+    - name: 'POLAND_ZIP_CODE'
+      regex: '\b\d{2}-\d{3}\b'
+      confidence: 0.7
+      keyword: *shared_keywords_zip_context
+
+
+
+# Passport
+passport_list:
+  passports:
+    INDIAN:
+      - name: "Indian Passport"
+        regex: '((?i)\b[A-Z][1-9][0-9]{6}[1-9]\b)'
+        confidence: 0.3
+        keyword: *shared_keywords_passport_context
+
+    US:
+      - name: "US Passport (very weak)"
+        regex: "(?i)(\b[0-9]{9}\b)"
+        confidence: 0.1
+        keyword: *shared_keywords_passport_context
+      - name: "US Passport Next Generation (very weak)"
+        regex: '(?i)(\b[A-Z][0-9]{8}\b)'
+        confidence: 0.4
+        keyword: *shared_keywords_passport_context
+
+    ITALY:
+      - name: "Italian Passport (very weak)"
+        regex: '(?i)\b[A-Z]{2}\d{7}\b'
+        confidence: 0.5
+        keyword: *shared_keywords_passport_context
+
+    CANADA:
+      - name: "Canada Passport ID"
+        regex: '(?i)\b[\w]{2}[\d]{6}\b'
+        confidence: 0.5
+        keyword: *shared_keywords_passport_context
+
+    FRANCE:
+      - name: "France Passport"
+        regex: '(?i)\b\d{2}11\d{5}\b'
+        confidence: 0.3
+        keyword: *shared_keywords_passport_context
+
+    GERMAN:
+      - name: "German Passport"
+        regex: '(?i)\b[cfghjk]\d{3}\w{5}\d\b'
+        confidence: 0.7
+        keyword: *shared_keywords_passport_context
+      - name: "German Passport (Weak)"
+        regex: '\b(?i:(([cfghjk] ?[0-9cfghjklmnprtvwxyzo]{8}[0-9]?)[d]?))\b'
+        confidence: 0.5
+        keyword: *shared_keywords_passport_context
+
+    SWEDEN:
+      - name: "Sweden Passport"
+        regex: '\b\d{8}\b'
+        confidence: 0.3
+        keyword: *shared_keywords_passport_context
+
+    UK:
+      - name: "UK Passport"
+        regex: '\b\d{9}\b'
+        confidence: 0.3
+        keyword: *shared_keywords_passport_context
+
+    AUSTRIA:
+      - name: "Austria Passport"
+        regex: 'AP[0-9]{6}|U[0-9]{7}'
+        confidence: 0.3
+        keyword: *shared_keywords_passport_context
+
+    RUSSIAN:
+      - name: "Russian Passport"
+        regex: '[0-9]{2}[\s\-]?[0-9]{7,8}'
+        confidence: 0.3
+        keyword: *shared_keywords_passport_context
+
+    POLAND:
+      - name: "Polish Passport"
+        regex: '\b[A-Z]{2}\d{7}\b'
+        confidence: 0.6
+        keyword: *shared_keywords_passport_context
+
+
+
+# numerical placeholder
+numerical_placeholders:
+  PHONE_NUMBER: "0000000000"  # 10 digits
+  CUSTOMER_NR: "0000000000" # 10 digits
+  AUSTRIAN_CUSTOMER_NUMBER: "0000000000" # 10 digits
+  CREDIT_CARD_NR: "<BIG_NUMBER>"  # 20 digits
+  ZIP_CODE: "00000"  # 5 digits
+  SSN: "000-00-0000"
+  IN_PAN: "0000000000"  # 10 digits
+  AU_TFN: "000000000"  # 9 digits
+  BILLING_NR: "<BIG_NUMBER>"  # 14 digits
+  ROUTING_NUMBER: "000000000"  # 9 digits
+  NRP: "000000"  # 6 digits
+  BIG_NUMBERS: "<BIG_NUMBER>" #  16 digits
+  DRIVER_LICENSE: "0000000000" # 10 digits
+  SWIFT_CODE: "00000000"  # 8 digits
+  AU_ACN: "000000000" # 9 digits
+  LICENSE_PLATE: "0000000000" # 10 digits
+  ID: "0000000000" # 10 digits
+  IN_AADHAAR: "<BIG_NUMBER>"  # 12-digits
+  PASSPORT": "0000000000"  # 10 digits
+  AU_MEDICARE: "000000000"  # 9 digits
+  AU_ABN": "<BIG_NUMBER>"  # 11 digits
+  US_DRIVER_LICENSE: "00000000"  # 8 digits
+  GERMAN_ID: "<BIG_NUMBER>"  # 12 digits
+  POLISH_ID: "<BIG_NUMBER>"  # 11 digits
+  ROMANIAN_ID: "<BIG_NUMBER>"  # 13 digits
+  CRYPTO: "<BIG_NUMBER>"  #  16 digits
+  IMEI: "<BIG_NUMBER>"  # 15 digits
+  GERMAN_PRE_ID: "0000000000"  # 10 digits
+  MEDICAL_LICENSE: "00000000"  # 8 digits
+  UK_NHS: "0000000000"  # 10 digits
+  IP_ADDRESS: "<NETWORK_ADDRESS>" #  place holder
+  MAC_ADDRESS: "<NETWORK_ADDRESS>" # place holder
+  DATE: "<DATE_TIME>" # 19 digits no change
+  GPS_COORDINATES: "0000000000" # 10 digits
+  GERMAN_SSN: "<BIG_NUMBER>" # 12 digits
+  TAX_IDENTIFICATION_NR: "0000000000" # 10 digits
+  STREET: "<SOME_NAME>" # Dummy name
+  ORGANIZATION: "<SOME_NAME>" # Dummy name
+  PERSON: "<SOME_NAME>" # Dummy name
+  URL: "<URL>"
+  SOCIAL_MEDIA_HANDLE: "<@SOME_NAME>"
+  CARD_PROFILE_NR: "<BIG_NUMBER>"
+  GERMAN_VISA: "000000000" # 9 digits
+  INDIAN_PASSPORT: "0000000000"
+  US_PASSPORT: "0000000000"
+  ITALY_PASSPORT: "0000000000"
+  CANADA_PASSPORT: "0000000000"
+  FRANCE_PASSPORT: "0000000000"
+  GERMAN_PASSPORT: "0000000000"
+  SWEDEN_PASSPORT: "0000000000"
+  POLAND_PASSPORT: "0000000000"
+  UK_PASSPORT: "0000000000"
+  AUSTRIA_PASSPORT: "0000000000"
+  RUSSIAN_PASSPORT: "0000000000"
+  OIB: "<BIG_NUMBER>"
+  CROATIAN_VISA: "00000000"
+  POLISH_TAX_ID_NIP: "0000000000"            # 10 digits
+  POLISH_VISA: "000000000"                   # 9 digits
+  PESEL: "<BIG_NUMBER>>"                       # 11 digits, following PESEL structure
+  LICENSE_PLATE_NUMBER: "00000000"           # typical Polish license plate pattern (1–3 letters + space + 1–5 alphanumerics)
+
+        #add croatian passport ssn phone number in the testing data as well for testing
+
+
+

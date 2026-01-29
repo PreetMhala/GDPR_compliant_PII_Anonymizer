@@ -1,0 +1,19 @@
+# Toggle models
+ALLOW_FALLBACK_CLD2: true
+FASTTEXT_MODEL: "GlotLID" # Options are "GlotLID" or "Facebook"
+USE_BERT_MODEL: false
+USE_ROBERTA_MODEL: false
+
+# Threshold - Minimum surity
+MIN_PROBABILITY: 0.5
+
+# Truncates input to first 'n' characters
+TRUNCATION: -1 # Set to -1 to disable truncation
+
+# Language map
+LANGUAGE_CODES:
+  ENGLISH: "en"
+  GERMAN: "de"
+  FRENCH: "fr"
+  ITALIAN: "it"
+  UNKNOWN: "un" # To modify unknown output.
